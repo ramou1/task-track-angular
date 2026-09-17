@@ -1,40 +1,53 @@
 .login-shell {
+  width: 100%;
+}
+
+.section-inner {
   width: min(1040px, 100%);
-  display: grid;
-  gap: 36px;
+  margin: 0 auto;
+}
+
+.login-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
 }
 
 .login-page {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 28px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  gap: 56px;
   align-items: center;
+  justify-content: center;
 }
 
 .login-hero {
-  padding: 8px 4px;
+  max-width: 460px;
 
   .logo {
     width: 148px;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
   }
 
   h1 {
-    font-size: 30px !important;
+    font-size: 34px !important;
     line-height: 1.25;
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
   }
 
   p {
     margin: 0;
     opacity: 0.8;
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.55;
   }
 }
 
 .login-card {
   margin: 0;
+  width: 100%;
 
   nb-card-header {
     display: flex;
@@ -86,12 +99,18 @@
 }
 
 .plans {
+  display: flex;
+  justify-content: center;
+  padding: 72px 24px 80px;
+  background: color-mix(in srgb, #323259 5%, var(--background-basic-color-2));
+  border-top: 1px solid var(--border-basic-color-3);
+
   header {
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 28px;
 
     h2 {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     p {
@@ -105,11 +124,11 @@
 .plan-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 16px;
 }
 
 .plan-card {
-  padding: 18px 16px;
+  padding: 22px 18px;
   border-radius: 16px;
   background: var(--background-basic-color-1);
   border: 1px solid var(--border-basic-color-3);
@@ -147,23 +166,46 @@
     color: #fff;
 
     span,
-    small {
-      opacity: 0.8;
+    strong,
+    small,
+    ul,
+    li {
+      color: #fff !important;
     }
 
-    strong {
-      color: #fff;
+    span,
+    small {
+      opacity: 0.88;
     }
   }
 }
 
 @media (max-width: 860px) {
+  .login-section {
+    min-height: 100vh;
+    padding: 40px 16px 48px;
+  }
+
   .login-page,
   .plan-grid {
     grid-template-columns: 1fr;
   }
 
+  .login-hero {
+    max-width: none;
+    text-align: center;
+
+    .logo {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
   .login-hero h1 {
-    font-size: 24px !important;
+    font-size: 26px !important;
+  }
+
+  .plans {
+    padding: 48px 16px 56px;
   }
 }

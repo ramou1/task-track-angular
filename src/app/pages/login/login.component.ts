@@ -4,8 +4,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NbButtonModule, NbCardModule, NbFormFieldModule, NbIconModule, NbInputModule, NbToastrService } from '@nebular/theme';
 import { MSG_CONST } from '../../constants/message.const';
-import { APP_ROUTES } from '../../constants/routes.const';
+import { APP_ROUTES, DEFAULT_BOARD_ID } from '../../constants/routes.const';
 import { AuthService } from '../../../services/auth.service';
+import { MockBoardService } from '../../../services/mock-board.service';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly boards = inject(MockBoardService);
   private readonly toastr = inject(NbToastrService);
 
   showPassword = false;
@@ -92,6 +94,6 @@ export class LoginComponent {
     }
 
     this.toastr.success(MSG_CONST.LOGIN_OK, 'Bem-vindo');
-    this.router.navigate(['/', APP_ROUTES.DASHBOARD]);
+    this.router.navigate(['/', APP_ROUTES.BOARDS, this.boards.currentBoardId() || DEFAULT_BOARD_ID]);
   }
 }

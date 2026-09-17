@@ -10,4 +10,5 @@ export interface TaskModel {
     progress?: number;
     responsible?: UserModel;
     responsibleId?: string;
+    boardId?: string;
 }

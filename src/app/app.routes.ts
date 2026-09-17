@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { APP_ROUTES } from './constants/routes.const';
+import { APP_ROUTES, DEFAULT_BOARD_ID } from './constants/routes.const';
 import { authGuard, guestGuard } from './guards/auth.guard';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -13,9 +13,14 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
-    path: APP_ROUTES.DASHBOARD,
+    path: `${APP_ROUTES.BOARDS}/:boardId`,
     component: DashboardComponent,
     canActivate: [authGuard],
+  },
+  {
+    path: APP_ROUTES.DASHBOARD,
+    redirectTo: `${APP_ROUTES.BOARDS}/${DEFAULT_BOARD_ID}`,
+    pathMatch: 'full',
   },
   {
     path: APP_ROUTES.USERS,
@@ -29,16 +34,16 @@ export const routes: Routes = [
   },
   {
     path: APP_ROUTES.TASKS,
-    redirectTo: APP_ROUTES.DASHBOARD,
+    redirectTo: `${APP_ROUTES.BOARDS}/${DEFAULT_BOARD_ID}`,
     pathMatch: 'full',
   },
   {
     path: '',
-    redirectTo: APP_ROUTES.DASHBOARD,
+    redirectTo: `${APP_ROUTES.BOARDS}/${DEFAULT_BOARD_ID}`,
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: APP_ROUTES.DASHBOARD,
+    redirectTo: `${APP_ROUTES.BOARDS}/${DEFAULT_BOARD_ID}`,
   },
 ];

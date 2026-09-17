@@ -84,6 +84,7 @@ export class TasksComponent extends BasePage implements OnInit {
 
     effect(() => {
       this.taskSrvc.tasks();
+      this.boardSrvc.currentBoardId();
       this.applyFilters();
     });
   }
@@ -129,7 +130,8 @@ export class TasksComponent extends BasePage implements OnInit {
   }
 
   applyFilters(): void {
-    let list = [...this.taskSrvc.tasks()];
+    const boardId = this.boardSrvc.currentBoardId();
+    let list = this.taskSrvc.tasks().filter((task) => task.boardId === boardId);
 
     if (this.searchTerm.trim()) {
       const term = normalizeText(this.searchTerm);
@@ -242,6 +244,7 @@ export class TasksComponent extends BasePage implements OnInit {
 
     try {
       const formData = this.tasksForm.getRawValue() as TaskModel;
+      formData.boardId = this.choosedTask?.boardId || this.boardSrvc.currentBoardId();
       if (this.editing) {
         formData.registerDate = this.choosedTask?.registerDate;
       }

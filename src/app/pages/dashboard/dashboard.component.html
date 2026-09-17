@@ -2,7 +2,7 @@
   <header class="welcome">
     <div>
       <h1>Olá, {{ firstName() }}!</h1>
-      <p>Resumo das tarefas{{ workplace() ? ' · ' + workplace() : '' }}.</p>
+      <p>{{ board().name }}{{ board().description ? ' · ' + board().description : '' }}</p>
     </div>
     <div class="week-strip">
       @for (day of weekDays; track day) {

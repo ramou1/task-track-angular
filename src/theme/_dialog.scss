@@ -25,3 +25,13 @@ nb-card.add-new-dialog {
         font-size: 18px;
     }
 }
+
+nb-card.board-dialog {
+    width: min(420px, 92vw);
+
+    nb-card-body {
+        display: grid;
+        gap: 10px;
+        padding: 16px !important;
+    }
+}

@@ -12,4 +12,5 @@ export const MSG_CONST = {
   PROFILE_OK: 'Perfil atualizado!',
   THEME_LIGHT: 'Tema claro ativado.',
   THEME_DARK: 'Tema escuro ativado.',
+  BOARD_CREATED: 'Quadro criado nesta sessão. O salvamento ainda não está disponível.',
 };

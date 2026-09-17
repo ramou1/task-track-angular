@@ -8,8 +8,8 @@
         </button>
         <button class="brand" type="button" (click)="goToHome()">
           <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo_task">
-          @if (auth.currentUser()?.workplace) {
-            <span class="workspace-chip">{{ auth.currentUser()?.workplace }}</span>
+          @if (boardSrvc.currentBoard().name) {
+            <span class="workspace-chip">{{ boardSrvc.currentBoard().name }}</span>
           }
         </button>
       </div>
@@ -38,15 +38,38 @@
     [state]="sidebarCompact() ? 'compacted' : 'expanded'"
     compactedBreakpoint="xs" collapsedBreakpoint="sm">
     @if (!sidebarCompact()) {
-      <div class="sidebar-workspace">
-        <nb-icon icon="briefcase-outline"></nb-icon>
-        <div>
-          <small>Local de trabalho</small>
-          <strong>{{ auth.currentUser()?.workplace || 'TaskTrack' }}</strong>
+      <div class="sidebar-workspace" [style.--board-color]="boardSrvc.currentBoard().color">
+        <div class="sidebar-workspace__head">
+          <nb-icon [icon]="boardSrvc.currentBoard().icon || 'briefcase-outline'"></nb-icon>
+          <div>
+            <small>Quadros</small>
+            <strong>{{ boardSrvc.currentBoard().name || 'TaskTrack' }}</strong>
+          </div>
+        </div>
+        <div class="board-tools">
+          <nb-form-field class="board-search">
+            <nb-icon nbPrefix icon="search-outline"></nb-icon>
+            <input nbInput type="search" fieldSize="small" placeholder="Buscar"
+              [value]="boardSearch()" (input)="searchBoards($event)">
+          </nb-form-field>
+          <button class="board-add" type="button" (click)="openNewBoardDialog(newBoardDialog)"
+            aria-label="Acrescentar novo quadro">
+            <nb-icon icon="plus-outline"></nb-icon>
+            <span>Novo quadro</span>
+          </button>
         </div>
       </div>
+    } @else {
+      <button class="board-add is-compact" type="button" (click)="openNewBoardDialog(newBoardDialog)"
+        aria-label="Acrescentar novo quadro">
+        <nb-icon icon="plus-outline"></nb-icon>
+      </button>
     }
-    <nb-menu [items]="menu"></nb-menu>
+    @if (menu().length) {
+      <nb-menu [items]="menu()"></nb-menu>
+    } @else {
+      <p class="board-empty">Nenhum quadro encontrado.</p>
+    }
     <button class="sidebar-collapse" type="button" (click)="toggleSidebar()"
       [attr.aria-label]="sidebarCompact() ? 'Expandir menu' : 'Recolher menu'">
       <nb-icon [icon]="sidebarCompact() ? 'arrow-ios-forward-outline' : 'arrow-ios-back-outline'"></nb-icon>
@@ -87,3 +110,22 @@
     }
   </div>
 </ng-template>
+
+<ng-template #newBoardDialog let-ref="dialogRef">
+  <nb-card class="board-dialog">
+    <nb-card-header>Novo quadro</nb-card-header>
+    <nb-card-body>
+      <p>O quadro aparece só nesta sessão e ainda não é salvo.</p>
+      <input nbInput fullWidth placeholder="Nome do quadro" [(ngModel)]="newBoardName"
+        (keyup.enter)="createBoard(ref)">
+    </nb-card-body>
+    <nb-card-footer>
+      <button (click)="ref.close()" nbButton status="basic" type="button">Cancelar</button>
+      <button [disabled]="!newBoardName.trim()" (click)="createBoard(ref)"
+        nbButton status="primary" type="button">
+        Acrescentar
+      </button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+

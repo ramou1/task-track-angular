@@ -1,3 +1,4 @@
+import { BoardModel } from '../models/board-model';
 import { TaskModel } from '../models/task-model';
 import { UserModel } from '../models/user-model';
 import { TASK_STATUS } from './task-status';
@@ -148,6 +149,49 @@ export const MOCK_USERS: UserModel[] = [
   },
 ];
 
+export const MOCK_BOARDS: BoardModel[] = [
+  {
+    id: 'aurora',
+    name: 'Agência Aurora',
+    company: 'Agência Aurora',
+    description: 'Projetos de produto, campanha e operação do time principal.',
+    color: '#323259',
+    icon: 'briefcase-outline',
+  },
+  {
+    id: 'lumen',
+    name: 'Estúdio Lúmen',
+    company: 'Estúdio Lúmen',
+    description: 'Identidade visual, documentação e experiência do produto.',
+    color: '#9d50dd',
+    icon: 'color-palette-outline',
+  },
+  {
+    id: 'oficina',
+    name: 'Oficina Criativa',
+    company: 'Oficina Criativa',
+    description: 'Conteúdo, pesquisa com usuários e lançamentos de mídia.',
+    color: '#fdab3d',
+    icon: 'bulb-outline',
+  },
+  {
+    id: 'horizonte',
+    name: 'Studio Horizonte',
+    company: 'Studio Horizonte',
+    description: 'Performance, qualidade e segurança das entregas digitais.',
+    color: '#579bfc',
+    icon: 'globe-outline',
+  },
+  {
+    id: 'palmeira',
+    name: 'Casa Palmeira',
+    company: 'Casa Palmeira',
+    description: 'Infraestrutura, backups e rotina dos servidores.',
+    color: '#00c875',
+    icon: 'home-outline',
+  },
+];
+
 export const MOCK_TASKS: TaskModel[] = [
   {
     id: '1',
@@ -169,6 +213,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.IN_PROGRESS,
     responsibleId: '101',
     responsible: MOCK_USERS[1],
+    boardId: 'aurora',
   },
   {
     id: '2',
@@ -189,6 +234,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.DONE,
     responsibleId: '102',
     responsible: MOCK_USERS[2],
+    boardId: 'palmeira',
   },
   {
     id: '3',
@@ -209,6 +255,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.PENDING,
     responsibleId: '103',
     responsible: MOCK_USERS[3],
+    boardId: 'lumen',
   },
   {
     id: '4',
@@ -229,6 +276,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.IN_PROGRESS,
     responsibleId: '104',
     responsible: MOCK_USERS[4],
+    boardId: 'horizonte',
   },
   {
     id: '5',
@@ -249,6 +297,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.DONE,
     responsibleId: '101',
     responsible: MOCK_USERS[1],
+    boardId: 'aurora',
   },
   {
     id: '6',
@@ -269,6 +318,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.PENDING,
     responsibleId: '106',
     responsible: MOCK_USERS[6],
+    boardId: 'horizonte',
   },
   {
     id: '7',
@@ -289,6 +339,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.IN_PROGRESS,
     responsibleId: '104',
     responsible: MOCK_USERS[4],
+    boardId: 'oficina',
   },
   {
     id: '8',
@@ -309,6 +360,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.PENDING,
     responsibleId: '106',
     responsible: MOCK_USERS[6],
+    boardId: 'lumen',
   },
   {
     id: '9',
@@ -329,6 +381,7 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.IN_PROGRESS,
     responsibleId: '102',
     responsible: MOCK_USERS[2],
+    boardId: 'palmeira',
   },
   {
     id: '10',
@@ -349,5 +402,66 @@ export const MOCK_TASKS: TaskModel[] = [
     status: TASK_STATUS.PENDING,
     responsibleId: '105',
     responsible: MOCK_USERS[5],
+    boardId: 'oficina',
+  },
+  {
+    id: '11',
+    title: 'Kit de apresentação comercial',
+    description: '<p>Montar o deck da <strong>Agência Aurora</strong> para reuniões com clientes novos, com cases e proposta de valor.</p>',
+    expirationDate: localDate(2026, 9, 20),
+    registerDate: localDate(2026, 9, 9),
+    progress: 30,
+    status: TASK_STATUS.IN_PROGRESS,
+    responsibleId: '100',
+    responsible: MOCK_USERS[0],
+    boardId: 'aurora',
+  },
+  {
+    id: '12',
+    title: 'Guia de marca',
+    description: '<p>Fechar o guia de marca do <strong>Estúdio Lúmen</strong> com cores, tipografia e exemplos de aplicação.</p>',
+    expirationDate: localDate(2026, 9, 27),
+    registerDate: localDate(2026, 9, 10),
+    progress: 15,
+    status: TASK_STATUS.PENDING,
+    responsibleId: '103',
+    responsible: MOCK_USERS[3],
+    boardId: 'lumen',
+  },
+  {
+    id: '13',
+    title: 'Calendário editorial',
+    description: '<p>Definir os temas de setembro e outubro para as redes da <strong>Oficina Criativa</strong>.</p>',
+    expirationDate: localDate(2026, 9, 19),
+    registerDate: localDate(2026, 9, 11),
+    progress: 45,
+    status: TASK_STATUS.IN_PROGRESS,
+    responsibleId: '105',
+    responsible: MOCK_USERS[5],
+    boardId: 'oficina',
+  },
+  {
+    id: '14',
+    title: 'Checklist de qualidade',
+    description: '<p>Padronizar o checklist de QA usado pelo <strong>Studio Horizonte</strong> antes de cada publicação.</p>',
+    expirationDate: localDate(2026, 9, 21),
+    registerDate: localDate(2026, 9, 11),
+    progress: 100,
+    status: TASK_STATUS.DONE,
+    responsibleId: '104',
+    responsible: MOCK_USERS[4],
+    boardId: 'horizonte',
+  },
+  {
+    id: '15',
+    title: 'Inventário de acessos',
+    description: '<p>Listar contas, VPNs e responsáveis da <strong>Casa Palmeira</strong> para o próximo ciclo de revisão.</p>',
+    expirationDate: localDate(2026, 9, 12),
+    registerDate: localDate(2026, 9, 8),
+    progress: 5,
+    status: TASK_STATUS.PENDING,
+    responsibleId: '102',
+    responsible: MOCK_USERS[2],
+    boardId: 'palmeira',
   },
 ];
