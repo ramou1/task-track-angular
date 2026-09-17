@@ -21,6 +21,7 @@ export class DashboardComponent {
 
   readonly today = new Date();
   readonly firstName = computed(() => this.auth.currentUser()?.name?.split(' ')[0] || 'usuário');
+  readonly workplace = computed(() => this.auth.currentUser()?.workplace || '');
   readonly usersCount = computed(() => this.userSrvc.users().length);
   readonly tasksCount = computed(() => this.taskSrvc.tasks().length);
   readonly pendingCount = computed(() => this.taskSrvc.tasks().filter((task) => task.status === TASK_STATUS.PENDING).length);

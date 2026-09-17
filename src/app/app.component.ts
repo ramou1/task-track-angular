@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Injector, OnInit } from '@angular/core';
+import { Component, inject, Injector, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -29,6 +29,8 @@ interface AppNotification {
   read: boolean;
 }
 
+const SIDEBAR_KEY = 'tasktrack.sidebar';
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -52,15 +54,16 @@ export class AppComponent extends BasePage implements OnInit {
   title = 'TaskTrack';
   readonly auth = inject(AuthService);
   private readonly menuService = inject(NbMenuService);
+  readonly sidebarCompact = signal(localStorage.getItem(SIDEBAR_KEY) === 'compacted');
 
   readonly getPersonColor = getPersonColor;
   readonly getRoleName = getRoleName;
 
   notifications: AppNotification[] = [
     { id: 1, text: 'A tarefa Auditoria de segurança está atrasada.', time: 'Há 8 min', read: false },
-    { id: 2, text: 'Alice Johnson concluiu a Revisão de código.', time: 'Há 25 min', read: false },
+    { id: 2, text: 'Ana Souza concluiu a Revisão de código.', time: 'Há 25 min', read: false },
     { id: 3, text: 'Uma nova tarefa foi atribuída a você: Criar landing page.', time: 'Há 1 h', read: false },
-    { id: 4, text: 'Bob Smith atualizou o Backup do banco de dados.', time: 'Ontem', read: true },
+    { id: 4, text: 'Bruno Mendes atualizou o Backup do banco de dados.', time: 'Ontem', read: true },
   ];
 
   readonly contextMenuItems = [
@@ -108,7 +111,9 @@ export class AppComponent extends BasePage implements OnInit {
       });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    queueMicrotask(() => this.applySidebar());
+  }
 
   get unreadCount(): number {
     return this.notifications.filter((item) => !item.read).length;
@@ -123,12 +128,22 @@ export class AppComponent extends BasePage implements OnInit {
   }
 
   toggleSidebar(): void {
-    this.sidebarSrvc.toggle(true, 'menu');
+    this.sidebarCompact.update((value) => !value);
+    localStorage.setItem(SIDEBAR_KEY, this.sidebarCompact() ? 'compacted' : 'expanded');
+    this.applySidebar();
   }
 
   logout(): void {
     this.auth.logout();
     this.toastrSrvc.success(MSG_CONST.LOGOUT_OK, 'Até logo');
     this.router.navigate(['/', APP_ROUTES.LOGIN]);
+  }
+
+  private applySidebar(): void {
+    if (this.sidebarCompact()) {
+      this.sidebarSrvc.compact('menu');
+    } else {
+      this.sidebarSrvc.expand('menu');
+    }
   }
 }

@@ -66,6 +66,7 @@ export class UsersComponent extends BasePage implements OnInit {
       id: [''],
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      workplace: [''],
       gender: ['', Validators.required],
       role: ['', Validators.required],
       registerDate: [null],
@@ -83,7 +84,9 @@ export class UsersComponent extends BasePage implements OnInit {
 
     if (this.searchTerm.trim()) {
       const term = normalizeText(this.searchTerm);
-      list = list.filter((user) => normalizeText(user.name || '').includes(term) || normalizeText(user.email || '').includes(term));
+      list = list.filter((user) =>
+        normalizeText(`${user.name || ''} ${user.email || ''} ${user.workplace || ''}`).includes(term),
+      );
     }
 
     if (this.selectedSort === 0) {

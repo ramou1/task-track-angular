@@ -36,7 +36,7 @@
             <div>
               <h3>{{ user.name }}</h3>
               <p>{{ user.email }}</p>
-              <small>{{ getGenderName(user.gender) }} · {{ user.registerDate | date:'dd/MM/yyyy' }}</small>
+              <small>{{ user.workplace || 'Sem local' }} · {{ getGenderName(user.gender) }} · {{ user.registerDate | date:'dd/MM/yyyy' }}</small>
             </div>
             <div class="user-item__side">
               <nb-tag [text]="getRoleName(user.role)" [status]="getRoleColor(user.role)"></nb-tag>
@@ -69,6 +69,7 @@
     <nb-card-header>{{ choosedUser?.name }}</nb-card-header>
     <nb-card-body>
       <p><strong>E-mail:</strong> {{ choosedUser?.email }}</p>
+      <p><strong>Local de trabalho:</strong> {{ choosedUser?.workplace || 'Não informado' }}</p>
       <p><strong>Gênero:</strong> {{ getGenderName(choosedUser?.gender) }}</p>
       <p><strong>Nível:</strong> {{ getRoleName(choosedUser?.role) }}</p>
       <p><strong>Cadastro:</strong> {{ choosedUser?.registerDate | date:'dd/MM/yyyy' }}</p>
@@ -94,6 +95,7 @@
       <form [formGroup]="usersForm">
         <input type="text" nbInput fullWidth placeholder="Nome do usuário" formControlName="name">
         <input type="email" nbInput fullWidth placeholder="E-mail" formControlName="email">
+        <input type="text" nbInput fullWidth placeholder="Agência / local de trabalho" formControlName="workplace">
         <div class="row">
           <nb-select fullWidth placeholder="Gênero" formControlName="gender">
             <nb-option value="male">Masculino</nb-option>

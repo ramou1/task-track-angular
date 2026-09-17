@@ -51,6 +51,15 @@ export class ProfileComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     phone: [''],
     gender: [''],
+    workplace: [''],
+    jobTitle: [''],
+    city: [''],
+    language: ['pt-BR'],
+    timezone: ['America/Sao_Paulo'],
+    dateFormat: ['dd/MM/yyyy'],
+    timeFormat: ['24h'],
+    weekStart: ['monday'],
+    emailNotifications: [true],
     password: [''],
   });
 
@@ -61,6 +70,15 @@ export class ProfileComponent implements OnInit {
       email: user?.email || '',
       phone: user?.phone || '',
       gender: user?.gender || '',
+      workplace: user?.workplace || '',
+      jobTitle: user?.jobTitle || '',
+      city: user?.city || '',
+      language: user?.language || 'pt-BR',
+      timezone: user?.timezone || 'America/Sao_Paulo',
+      dateFormat: user?.dateFormat || 'dd/MM/yyyy',
+      timeFormat: user?.timeFormat || '24h',
+      weekStart: user?.weekStart || 'monday',
+      emailNotifications: user?.emailNotifications ?? true,
     });
   }
 
@@ -84,6 +102,15 @@ export class ProfileComponent implements OnInit {
       email: value.email || current.email,
       phone: value.phone || '',
       gender: value.gender || current.gender,
+      workplace: value.workplace || '',
+      jobTitle: value.jobTitle || '',
+      city: value.city || '',
+      language: value.language || 'pt-BR',
+      timezone: value.timezone || 'America/Sao_Paulo',
+      dateFormat: value.dateFormat || 'dd/MM/yyyy',
+      timeFormat: value.timeFormat || '24h',
+      weekStart: value.weekStart || 'monday',
+      emailNotifications: value.emailNotifications ?? true,
       password: value.password || stored?.password,
     };
 
@@ -105,6 +132,46 @@ export class ProfileComponent implements OnInit {
       this.toastr.success('Pré-visualização pronta. O upload ainda não está disponível.', 'Foto');
     };
     reader.readAsDataURL(file);
+  }
+
+  formatPreview(): string {
+    const now = new Date();
+    const dateFormat = this.form.value.dateFormat || 'dd/MM/yyyy';
+    const timeFormat = this.form.value.timeFormat || '24h';
+    const date = this.formatDate(now, dateFormat);
+    const time = timeFormat === '12h'
+      ? now.toLocaleTimeString('pt-BR', { hour: 'numeric', minute: '2-digit', hour12: true })
+      : now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', hour12: false });
+    const zone = this.timezoneLabel(this.form.value.timezone || 'America/Sao_Paulo');
+    return `${date} · ${time} · ${zone}`;
+  }
+
+  private formatDate(date: Date, format: string): string {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const months = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+    if (format === 'yyyy-MM-dd') {
+      return `${date.getFullYear()}-${month}-${day}`;
+    }
+    if (format === 'dd MMM yyyy') {
+      return `${day} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    }
+    return `${day}/${month}/${date.getFullYear()}`;
+  }
+
+  private timezoneLabel(zone: string): string {
+    switch (zone) {
+      case 'America/Manaus':
+        return 'Manaus';
+      case 'America/Rio_Branco':
+        return 'Rio Branco';
+      case 'America/Noronha':
+        return 'Fernando de Noronha';
+      case 'America/Recife':
+        return 'Recife';
+      default:
+        return 'Brasília';
+    }
   }
 
   toggleTheme(): void {

@@ -1,0 +1,22 @@
+<div class="rte" [class.is-disabled]="disabled">
+  <div class="rte-toolbar">
+    <button class="mark" type="button" (mousedown)="$event.preventDefault()" (click)="format('bold')" title="Negrito">B</button>
+    <button class="mark italic" type="button" (mousedown)="$event.preventDefault()" (click)="format('italic')" title="Itálico">I</button>
+    <button class="mark" type="button" (mousedown)="$event.preventDefault()" (click)="format('underline')" title="Sublinhado">U</button>
+    <button type="button" (mousedown)="$event.preventDefault()" (click)="format('insertUnorderedList')" title="Lista">
+      <nb-icon icon="list-outline"></nb-icon>
+    </button>
+    <button type="button" (mousedown)="$event.preventDefault()" (click)="imageInput.click()" title="Inserir imagem">
+      <nb-icon icon="image-outline"></nb-icon>
+    </button>
+    <input #imageInput type="file" accept="image/*" hidden (change)="insertImage($event)">
+  </div>
+  <div
+    #area
+    class="rte-area"
+    contenteditable="true"
+    [attr.contenteditable]="disabled ? 'false' : 'true'"
+    (input)="onInput()"
+    (blur)="markTouched()">
+  </div>
+</div>

@@ -3,7 +3,7 @@ import { NbThemeService } from '@nebular/theme';
 
 export type AppTheme = 'tasktrack-light' | 'tasktrack-dark';
 
-const STORAGE_KEY = 'tasktrack.theme';
+const STORAGE_KEY = 'tasktrack.theme.v2';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +19,11 @@ export class ThemeService {
     this.nbTheme.changeTheme(this.themeSignal());
   }
 
-  set(theme: AppTheme): void {
+  set(theme: AppTheme, persist = true): void {
     this.themeSignal.set(theme);
-    localStorage.setItem(STORAGE_KEY, theme);
+    if (persist) {
+      localStorage.setItem(STORAGE_KEY, theme);
+    }
     this.nbTheme.changeTheme(theme);
   }
 
@@ -30,7 +32,6 @@ export class ThemeService {
   }
 
   private read(): AppTheme {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored === 'tasktrack-dark' || stored === 'tasktrack-light' ? stored : 'tasktrack-light';
+    return localStorage.getItem(STORAGE_KEY) === 'tasktrack-dark' ? 'tasktrack-dark' : 'tasktrack-light';
   }
 }

@@ -6,6 +6,19 @@ function localDate(year: number, month: number, day: number): Date {
   return new Date(year, month - 1, day);
 }
 
+const IMG = {
+  landing: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80',
+  database: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?auto=format&fit=crop&w=900&q=80',
+  docs: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80',
+  performance: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80',
+  code: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80',
+  security: 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=900&q=80',
+  feedback: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=900&q=80',
+  ui: 'https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=900&q=80',
+  servers: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80',
+  marketing: 'https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=900&q=80',
+};
+
 export const MOCK_USERS: UserModel[] = [
   {
     id: '100',
@@ -14,60 +27,123 @@ export const MOCK_USERS: UserModel[] = [
     password: 'admin123',
     role: 'admin',
     gender: 'male',
+    workplace: 'Agência Aurora',
+    jobTitle: 'Diretor de projetos',
+    city: 'Belo Horizonte, MG',
+    language: 'pt-BR',
+    timezone: 'America/Sao_Paulo',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: true,
     registerDate: localDate(2026, 1, 10),
   },
   {
     id: '101',
-    name: 'Alice Johnson',
+    name: 'Ana Souza',
     email: 'alice@gmail.com',
     password: 'user123',
     role: 'user',
     gender: 'female',
+    workplace: 'Agência Aurora',
+    jobTitle: 'Designer de produto',
+    city: 'São Paulo, SP',
+    language: 'pt-BR',
+    timezone: 'America/Sao_Paulo',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: true,
     registerDate: localDate(2026, 3, 1),
   },
   {
     id: '102',
-    name: 'Bob Smith',
-    email: 'bob.smith@example.com',
+    name: 'Bruno Mendes',
+    email: 'bruno.mendes@example.com',
     password: 'admin123',
     role: 'admin',
     gender: 'male',
+    workplace: 'Agência Aurora',
+    jobTitle: 'Líder de infraestrutura',
+    city: 'Campinas, SP',
+    language: 'pt-BR',
+    timezone: 'America/Sao_Paulo',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: true,
     registerDate: localDate(2026, 3, 2),
   },
   {
     id: '103',
-    name: 'Carol White',
-    email: 'carol.white@example.com',
+    name: 'Carla Ferreira',
+    email: 'carla.ferreira@example.com',
     password: 'user123',
     role: 'admin',
     gender: 'female',
+    workplace: 'Estúdio Lúmen',
+    jobTitle: 'Documentação técnica',
+    city: 'Curitiba, PR',
+    language: 'pt-BR',
+    timezone: 'America/Sao_Paulo',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: false,
     registerDate: localDate(2026, 2, 12),
   },
   {
     id: '104',
-    name: 'Emma Davis',
-    email: 'emma.davis@example.com',
+    name: 'Eduarda Lima',
+    email: 'eduarda.lima@example.com',
     password: 'user123',
     role: 'user',
     gender: 'female',
+    workplace: 'Agência Aurora',
+    jobTitle: 'Analista de qualidade',
+    city: 'Recife, PE',
+    language: 'pt-BR',
+    timezone: 'America/Recife',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: true,
     registerDate: localDate(2026, 4, 3),
   },
   {
     id: '105',
-    name: 'Grace Wilson',
-    email: 'grace.wilson@gmail.com',
+    name: 'Gabriela Nunes',
+    email: 'gabriela.nunes@gmail.com',
     password: 'user123',
     role: 'user',
     gender: 'female',
+    workplace: 'Oficina Criativa',
+    jobTitle: 'Especialista de marketing',
+    city: 'Rio de Janeiro, RJ',
+    language: 'pt-BR',
+    timezone: 'America/Sao_Paulo',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: true,
     registerDate: localDate(2026, 4, 1),
   },
   {
     id: '106',
-    name: 'Henry Clark',
-    email: 'henry.clark@example.com',
+    name: 'Henrique Costa',
+    email: 'henrique.costa@example.com',
     password: 'user123',
     role: 'user',
     gender: 'male',
+    workplace: 'Agência Aurora',
+    jobTitle: 'Analista de segurança',
+    city: 'Brasília, DF',
+    language: 'pt-BR',
+    timezone: 'America/Sao_Paulo',
+    dateFormat: 'dd/MM/yyyy',
+    timeFormat: '24h',
+    weekStart: 'monday',
+    emailNotifications: true,
     registerDate: localDate(2026, 3, 23),
   },
 ];
@@ -76,7 +152,17 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '1',
     title: 'Criar landing page',
-    description: 'Design and implement the new product landing page.',
+    description: `
+      <p>Design and implement the new product landing page for the <strong>Q4 launch</strong>.</p>
+      <p>The page should explain the value proposition in the first viewport, then move into social proof, pricing and a clear call to action.</p>
+      <ul>
+        <li>Hero with product video and a single primary button</li>
+        <li>Mobile-first layout, 3 breakpoints, Core Web Vitals in the green</li>
+        <li>Copy in English and Portuguese, ready for A/B testing</li>
+      </ul>
+      <p><em>Share a clickable prototype before development starts.</em></p>
+      <p><img src="${IMG.landing}" alt="Landing page reference"></p>
+    `,
     expirationDate: localDate(2026, 9, 18),
     registerDate: localDate(2026, 8, 20),
     progress: 50,
@@ -87,7 +173,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '2',
     title: 'Backup do banco de dados',
-    description: 'Run a full backup of the production database.',
+    description: `
+      <p>Run a <strong>full backup</strong> of the production database and store a copy in the off-site vault.</p>
+      <p>Confirm restore time, encryption and the retention window with the infrastructure team before closing the task.</p>
+      <ul>
+        <li>Logical dump plus snapshot of the replica</li>
+        <li>Test restore on the staging cluster</li>
+        <li>Document the runbook in the ops wiki</li>
+      </ul>
+      <p><img src="${IMG.database}" alt="Database backup"></p>
+    `,
     expirationDate: localDate(2026, 9, 5),
     registerDate: localDate(2026, 8, 28),
     progress: 100,
@@ -98,7 +193,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '3',
     title: 'Atualizar documentação da API',
-    description: 'Update the API documentation with the latest endpoints.',
+    description: `
+      <p>Update the public API documentation with the latest endpoints, auth headers and error contracts.</p>
+      <p>Include <strong>request/response examples</strong> for create, update and webhook payloads. Call out breaking changes from the last release in a short migration note.</p>
+      <ul>
+        <li>OpenAPI 3.1 as the source of truth</li>
+        <li>Postman collection exported from the same spec</li>
+        <li>Changelog entry for partners</li>
+      </ul>
+      <p><img src="${IMG.docs}" alt="API documentation"></p>
+    `,
     expirationDate: localDate(2026, 9, 22),
     registerDate: localDate(2026, 9, 1),
     progress: 25,
@@ -109,7 +213,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '4',
     title: 'Testes de performance',
-    description: 'Run performance tests on the new application release.',
+    description: `
+      <p>Run performance tests on the new application release and compare them with the previous baseline.</p>
+      <p>Focus on the checkout flow and the dashboard under <strong>peak traffic</strong>. Capture p95 latency, error rate and CPU on the API nodes.</p>
+      <ul>
+        <li>k6 scenarios for 200, 500 and 1.000 concurrent users</li>
+        <li>Attach flame graphs for the slowest endpoints</li>
+        <li>Recommend caching or query changes if we miss the SLO</li>
+      </ul>
+      <p><img src="${IMG.performance}" alt="Performance charts"></p>
+    `,
     expirationDate: localDate(2026, 9, 16),
     registerDate: localDate(2026, 9, 2),
     progress: 75,
@@ -120,7 +233,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '5',
     title: 'Revisão de código',
-    description: 'Review pull requests submitted by the development team.',
+    description: `
+      <p>Review pull requests submitted by the development team this sprint.</p>
+      <p>Look for regressions in auth, missing tests and unclear naming. Leave comments that are <em>actionable</em>, not just stylistic.</p>
+      <ul>
+        <li>Prioritize PRs touching billing and permissions</li>
+        <li>Check accessibility on new form controls</li>
+        <li>Approve only after CI is green</li>
+      </ul>
+      <p><img src="${IMG.code}" alt="Code review"></p>
+    `,
     expirationDate: localDate(2026, 9, 8),
     registerDate: localDate(2026, 9, 3),
     progress: 100,
@@ -131,7 +253,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '6',
     title: 'Auditoria de segurança',
-    description: 'Conduct a security audit of the web application.',
+    description: `
+      <p>Conduct a security audit of the web application before the next release candidate.</p>
+      <p>Cover <strong>OWASP Top 10</strong>, dependency vulnerabilities and secrets in the repository. Report severity, impact and a suggested fix for each finding.</p>
+      <ul>
+        <li>Authenticated and anonymous scans</li>
+        <li>Review CORS, cookies and session expiration</li>
+        <li>Share a one-page summary with leadership</li>
+      </ul>
+      <p><img src="${IMG.security}" alt="Security audit"></p>
+    `,
     expirationDate: localDate(2026, 9, 8),
     registerDate: localDate(2026, 9, 4),
     progress: 10,
@@ -142,7 +273,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '7',
     title: 'Análise de feedback',
-    description: 'Analyze user feedback from the latest survey.',
+    description: `
+      <p>Analyze user feedback from the latest survey and support tickets from the last 30 days.</p>
+      <p>Group comments by theme, highlight the top <strong>five friction points</strong> and suggest product changes we can ship this month.</p>
+      <ul>
+        <li>Include quotes that illustrate each theme</li>
+        <li>Score impact versus effort</li>
+        <li>Present findings in a short deck for the weekly meeting</li>
+      </ul>
+      <p><img src="${IMG.feedback}" alt="User feedback workshop"></p>
+    `,
     expirationDate: localDate(2026, 9, 24),
     registerDate: localDate(2026, 9, 5),
     progress: 60,
@@ -153,7 +293,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '8',
     title: 'Revisão de UI/UX',
-    description: 'Review and refine the mobile app UI/UX design.',
+    description: `
+      <p>Review and refine the mobile app UI/UX for onboarding and task creation.</p>
+      <p>The current flow takes too many taps. Propose a tighter hierarchy, clearer empty states and a calmer color use that still keeps <strong>#323259</strong> as the brand.</p>
+      <ul>
+        <li>Audit contrast and tap targets</li>
+        <li>Prototype the new onboarding in Figma</li>
+        <li>Validate with 5 internal users</li>
+      </ul>
+      <p><img src="${IMG.ui}" alt="UI review"></p>
+    `,
     expirationDate: localDate(2026, 9, 30),
     registerDate: localDate(2026, 9, 6),
     progress: 20,
@@ -164,7 +313,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '9',
     title: 'Manutenção dos servidores',
-    description: 'Perform routine maintenance on the application servers.',
+    description: `
+      <p>Perform routine maintenance on the application servers during the agreed window.</p>
+      <p>Patch the OS, rotate logs and confirm that autoscaling still reacts to CPU and memory. Keep a rollback note in case a node fails to rejoin the cluster.</p>
+      <ul>
+        <li>Update the load balancer health checks</li>
+        <li>Verify backups after the reboot</li>
+        <li>Notify the team on Slack when the window closes</li>
+      </ul>
+      <p><img src="${IMG.servers}" alt="Server room"></p>
+    `,
     expirationDate: localDate(2026, 9, 14),
     registerDate: localDate(2026, 9, 7),
     progress: 35,
@@ -175,7 +333,16 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '10',
     title: 'Lançar campanha de marketing',
-    description: 'Launch the new marketing campaign for the upcoming product.',
+    description: `
+      <p>Launch the new marketing campaign for the upcoming product, including ads, landing and email sequence.</p>
+      <p>Coordinate copy, creative and tracking with design and growth. The first audience is <strong>agencies in Brazil and the US</strong>.</p>
+      <ul>
+        <li>UTM plan and conversion events in analytics</li>
+        <li>Three ad variants for social and search</li>
+        <li>Weekly report with CAC and sign-up rate</li>
+      </ul>
+      <p><img src="${IMG.marketing}" alt="Marketing campaign"></p>
+    `,
     expirationDate: localDate(2026, 10, 1),
     registerDate: localDate(2026, 9, 8),
     progress: 40,

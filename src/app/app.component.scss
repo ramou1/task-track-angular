@@ -40,23 +40,32 @@
   border: 2px solid rgba(255, 255, 255, 0.45);
 }
 
-.header-bar {
-  justify-content: space-between;
-  width: 100%;
-}
-
 .brand {
   display: flex;
   align-items: center;
+  gap: 10px;
   background: transparent;
   border: 0;
   padding: 0;
   cursor: pointer;
 }
 
+.workspace-chip {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
 nb-layout-header {
   .logo_task {
-    width: 132px;
+    width: 118px;
   }
 
   button[nbButton] {
@@ -65,7 +74,104 @@ nb-layout-header {
 }
 
 .menu-toggle {
-  display: none;
+  display: inline-flex;
+
+  nb-icon {
+    font-size: 22px;
+    transition: transform 180ms ease;
+
+    &.is-compact {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.page-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+}
+
+.sidebar-workspace {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 10px 14px;
+  padding: 10px;
+  border-radius: 12px;
+  background: color-mix(in srgb, #323259 8%, var(--background-basic-color-2));
+
+  nb-icon {
+    font-size: 18px;
+    color: #323259;
+  }
+
+  small {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  strong {
+    display: block;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
+  &.is-compact {
+    display: none;
+  }
+}
+
+.sidebar-collapse {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 16px);
+  margin: auto 8px 12px;
+  padding: 10px 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 13px;
+
+  nb-icon {
+    font-size: 22px;
+  }
+
+  &:hover {
+    background: color-mix(in srgb, #323259 8%, transparent);
+  }
+}
+
+:host ::ng-deep {
+  .app-sidebar .scrollable {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0 12px !important;
+  }
+
+  .app-sidebar nb-menu {
+    flex: 1;
+  }
+
+  nb-sidebar.compacted .menu-icon {
+    font-size: 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+    line-height: 22px !important;
+  }
+
+  nb-layout.auth-layout .layout-container nb-layout-column {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 28px 16px 40px;
+  }
 }
 
 :host ::ng-deep nb-layout-footer {
@@ -92,20 +198,14 @@ nb-layout-header {
   }
 }
 
-:host ::ng-deep nb-layout.auth-layout .layout-container nb-layout-column {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 :host ::ng-deep .user-title,
 :host ::ng-deep .user-name {
   color: #fff !important;
 }
 
 @media (max-width: 992px) {
-  .menu-toggle {
-    display: inline-flex;
+  .workspace-chip {
+    display: none;
   }
 
   :host ::ng-deep nb-user .user-name,

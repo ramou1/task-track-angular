@@ -1,53 +1,73 @@
-<section class="login-page">
-  <button class="theme-fab" nbButton ghost type="button" (click)="toggleTheme()" [attr.aria-label]="theme.isDark() ? 'Tema claro' : 'Tema escuro'">
-    <nb-icon [icon]="theme.isDark() ? 'sun-outline' : 'moon-outline'"></nb-icon>
-  </button>
-  <div class="login-hero">
-    <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo">
-    <h1>Organize o trabalho da equipe em um só lugar</h1>
-    <p>Acompanhe prazos, responsáveis e o andamento das tarefas com uma visão clara do dia a dia.</p>
+<section class="login-shell">
+  <div class="login-page">
+    <div class="login-hero">
+      <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo">
+      <h1>Organize o trabalho da equipe em um só lugar</h1>
+      <p>Acompanhe prazos, responsáveis e o andamento das tarefas com uma visão clara do dia a dia.</p>
+    </div>
+
+    <nb-card class="login-card">
+      <nb-card-header>
+        <h2>Entrar</h2>
+        <span>Use uma conta de demonstração para acessar o painel.</span>
+      </nb-card-header>
+
+      <nb-card-body>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <nb-form-field>
+            <nb-icon nbPrefix icon="email-outline"></nb-icon>
+            <input nbInput fullWidth type="email" formControlName="email" placeholder="E-mail" autocomplete="username">
+          </nb-form-field>
+
+          <nb-form-field>
+            <nb-icon nbPrefix icon="lock-outline"></nb-icon>
+            <input nbInput fullWidth [type]="showPassword ? 'text' : 'password'" formControlName="password"
+              placeholder="Senha" autocomplete="current-password">
+            <button nbSuffix nbButton ghost type="button" (click)="showPassword = !showPassword" aria-label="Mostrar senha">
+              <nb-icon [icon]="showPassword ? 'eye-off-outline' : 'eye-outline'"></nb-icon>
+            </button>
+          </nb-form-field>
+
+          @if (errorMessage) {
+            <p class="error">{{ errorMessage }}</p>
+          }
+
+          <button nbButton status="primary" fullWidth type="submit" [disabled]="submitting">
+            Entrar
+          </button>
+        </form>
+
+        <div class="demo-box">
+          <strong>Contas mockadas</strong>
+          <button nbButton size="small" status="basic" type="button" (click)="fillDemo('admin')">
+            Admin · {{ adminHint }}
+          </button>
+          <button nbButton size="small" status="basic" type="button" (click)="fillDemo('user')">
+            Usuário · {{ userHint }}
+          </button>
+        </div>
+      </nb-card-body>
+    </nb-card>
   </div>
 
-  <nb-card class="login-card">
-    <nb-card-header>
-      <h2>Entrar</h2>
-      <span>Use uma conta de demonstração para acessar o painel.</span>
-    </nb-card-header>
-
-    <nb-card-body>
-      <form [formGroup]="form" (ngSubmit)="submit()">
-        <nb-form-field>
-          <nb-icon nbPrefix icon="email-outline"></nb-icon>
-          <input nbInput fullWidth type="email" formControlName="email" placeholder="E-mail" autocomplete="username">
-        </nb-form-field>
-
-        <nb-form-field>
-          <nb-icon nbPrefix icon="lock-outline"></nb-icon>
-          <input nbInput fullWidth [type]="showPassword ? 'text' : 'password'" formControlName="password"
-            placeholder="Senha" autocomplete="current-password">
-          <button nbSuffix nbButton ghost type="button" (click)="showPassword = !showPassword" aria-label="Mostrar senha">
-            <nb-icon [icon]="showPassword ? 'eye-off-outline' : 'eye-outline'"></nb-icon>
-          </button>
-        </nb-form-field>
-
-        @if (errorMessage) {
-          <p class="error">{{ errorMessage }}</p>
-        }
-
-        <button nbButton status="primary" fullWidth type="submit" [disabled]="submitting">
-          Entrar
-        </button>
-      </form>
-
-      <div class="demo-box">
-        <strong>Contas mockadas</strong>
-        <button nbButton size="small" status="basic" type="button" (click)="fillDemo('admin')">
-          Admin · {{ adminHint }}
-        </button>
-        <button nbButton size="small" status="basic" type="button" (click)="fillDemo('user')">
-          Usuário · {{ userHint }}
-        </button>
-      </div>
-    </nb-card-body>
-  </nb-card>
+  <section class="plans">
+    <header>
+      <h2>Planos</h2>
+      <p>Valores fictícios para demonstração do produto.</p>
+    </header>
+    <div class="plan-grid">
+      @for (plan of plans; track plan.name) {
+        <article class="plan-card" [class.is-featured]="plan.featured">
+          <span>{{ plan.name }}</span>
+          <strong>{{ plan.price }}</strong>
+          <small>{{ plan.period }}</small>
+          <ul>
+            @for (item of plan.items; track item) {
+              <li>{{ item }}</li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </section>
 </section>

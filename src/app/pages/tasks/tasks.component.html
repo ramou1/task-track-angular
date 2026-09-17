@@ -136,7 +136,7 @@
             @for (task of group.tasks; track task.id) {
               <article class="kanban-card" cdkDrag [cdkDragData]="task" (click)="openTaskView(viewDialog, task)">
                 <h4>{{ task.title }}</h4>
-                <p>{{ task.description }}</p>
+                <p>{{ plainText(task.description) }}</p>
                 <div class="kanban-card__meta">
                   <span class="person-chip" [style.background]="getPersonColor(task.responsibleId)" [style.color]="'#fff'">
                     {{ getInitials(task.responsible?.name) }}
@@ -166,11 +166,15 @@
       </div>
     </nb-card-header>
     <nb-card-body>
-      <p class="description">{{ choosedTask?.description }}</p>
+      <div class="description rich-content" [innerHTML]="choosedTask?.description | safeHtml"></div>
       <div class="meta-grid">
         <div>
           <span>Responsável</span>
           <strong>{{ choosedTask?.responsible?.name || '—' }}</strong>
+        </div>
+        <div>
+          <span>Local de trabalho</span>
+          <strong>{{ choosedTask?.responsible?.workplace || '—' }}</strong>
         </div>
         <div>
           <span>Cadastro</span>
@@ -206,7 +210,7 @@
     <nb-card-body>
       <form [formGroup]="tasksForm">
         <input type="text" nbInput fullWidth placeholder="Título da tarefa" formControlName="title">
-        <textarea nbInput fullWidth rows="5" placeholder="Descrição da tarefa" formControlName="description"></textarea>
+        <app-rich-text-editor formControlName="description"></app-rich-text-editor>
         <div class="row">
           <input nbInput fullWidth [nbDatepicker]="datepicker" placeholder="Data de vencimento" formControlName="expirationDate">
           <nb-datepicker #datepicker format="dd/MM/yyyy"></nb-datepicker>

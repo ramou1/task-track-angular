@@ -1,7 +1,7 @@
 <section class="profile-page">
   <header>
     <h1>Configurações do perfil</h1>
-    <p>Atualize seus dados pessoais e a aparência do sistema.</p>
+    <p>Atualize seus dados pessoais, o local de trabalho e as preferências do sistema.</p>
   </header>
 
   <div class="profile-grid">
@@ -17,6 +17,12 @@
         <h2>{{ auth.currentUser()?.name }}</h2>
         <p>{{ auth.currentUser()?.email }}</p>
         <span class="role">{{ getRoleName(auth.currentUser()?.role) }}</span>
+        @if (auth.currentUser()?.jobTitle) {
+          <p class="job">{{ auth.currentUser()?.jobTitle }}</p>
+        }
+        @if (auth.currentUser()?.workplace) {
+          <p class="workplace">{{ auth.currentUser()?.workplace }}</p>
+        }
         <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event)">
         <button nbButton size="small" status="basic" type="button" (click)="photoInput.click()">
           <nb-icon icon="camera-outline"></nb-icon>
@@ -52,12 +58,75 @@
                   <nb-option value="other">Prefiro não dizer</nb-option>
                 </nb-select>
               </label>
+              <label>
+                Cargo
+                <input nbInput fullWidth placeholder="Ex.: Designer de produto" formControlName="jobTitle">
+              </label>
+              <label>
+                Cidade
+                <input nbInput fullWidth placeholder="Ex.: São Paulo, SP" formControlName="city">
+              </label>
+              <label class="full">
+                Agência / local de trabalho
+                <input nbInput fullWidth placeholder="Ex.: Agência Aurora" formControlName="workplace">
+              </label>
               <label class="full">
                 Nova senha
                 <input nbInput fullWidth [type]="showPassword ? 'text' : 'password'" placeholder="Deixe em branco para manter a atual"
                   formControlName="password">
               </label>
             </div>
+
+            <h3 class="section-title">Idioma e região</h3>
+            <div class="form-grid">
+              <label>
+                Idioma
+                <nb-select fullWidth formControlName="language">
+                  <nb-option value="pt-BR">Português (Brasil)</nb-option>
+                  <nb-option value="pt-PT">Português (Portugal)</nb-option>
+                  <nb-option value="en-US">Inglês</nb-option>
+                  <nb-option value="es-ES">Espanhol</nb-option>
+                </nb-select>
+              </label>
+              <label>
+                Fuso horário
+                <nb-select fullWidth formControlName="timezone">
+                  <nb-option value="America/Sao_Paulo">Brasília (GMT-3)</nb-option>
+                  <nb-option value="America/Manaus">Manaus (GMT-4)</nb-option>
+                  <nb-option value="America/Rio_Branco">Rio Branco (GMT-5)</nb-option>
+                  <nb-option value="America/Noronha">Fernando de Noronha (GMT-2)</nb-option>
+                  <nb-option value="America/Recife">Recife (GMT-3)</nb-option>
+                </nb-select>
+              </label>
+              <label>
+                Formato da data
+                <nb-select fullWidth formControlName="dateFormat">
+                  <nb-option value="dd/MM/yyyy">17/09/2026</nb-option>
+                  <nb-option value="dd MMM yyyy">17 set 2026</nb-option>
+                  <nb-option value="yyyy-MM-dd">2026-09-17</nb-option>
+                </nb-select>
+              </label>
+              <label>
+                Formato da hora
+                <nb-select fullWidth formControlName="timeFormat">
+                  <nb-option value="24h">24 horas (16:30)</nb-option>
+                  <nb-option value="12h">12 horas (4:30 PM)</nb-option>
+                </nb-select>
+              </label>
+              <label>
+                Início da semana
+                <nb-select fullWidth formControlName="weekStart">
+                  <nb-option value="monday">Segunda-feira</nb-option>
+                  <nb-option value="sunday">Domingo</nb-option>
+                </nb-select>
+              </label>
+              <label class="toggle-field">
+                E-mails de notificação
+                <nb-toggle status="primary" formControlName="emailNotifications">Receber avisos por e-mail</nb-toggle>
+              </label>
+            </div>
+
+            <p class="preview">Prévia: {{ formatPreview() }}</p>
             <button nbButton status="primary" type="submit">Salvar alterações</button>
           </form>
         </nb-card-body>

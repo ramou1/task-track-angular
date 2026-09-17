@@ -1,9 +1,16 @@
 nb-card.confirm-dialog,
 nb-card.profile-dialog,
-nb-card.task-view-dialog,
 nb-card.user-view-dialog {
     width: min(480px, 92vw);
-    text-align: center;
+
+    nb-card-body {
+        padding: 16px !important;
+        text-align: left;
+    }
+}
+
+nb-card.task-view-dialog {
+    width: min(640px, 94vw);
 
     nb-card-body {
         padding: 16px !important;
@@ -12,9 +19,9 @@ nb-card.user-view-dialog {
 }
 
 nb-card.add-new-dialog {
-    width: min(560px, 92vw);
+    width: min(680px, 94vw);
 
     nb-card-header {
-        font-size: 20px;
+        font-size: 18px;
     }
 }

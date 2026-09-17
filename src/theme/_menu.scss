@@ -1,3 +1,9 @@
 nb-menu .menu-item a {
-    font-weight: 400 !important;
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+  margin: 2px 8px;
+}
+
+nb-menu .menu-item a .menu-title {
+  font-size: 13.5px;
 }

@@ -2,11 +2,15 @@
   <nb-layout-header *ngIf="auth.isAuthenticated()" fixed>
     <div class="header-bar">
       <div class="header-left">
-        <button class="menu-toggle" nbButton ghost type="button" (click)="toggleSidebar()" aria-label="Abrir menu">
-          <nb-icon icon="menu-2-outline"></nb-icon>
+        <button class="menu-toggle" nbButton ghost type="button" (click)="toggleSidebar()"
+          [attr.aria-label]="sidebarCompact() ? 'Expandir menu' : 'Recolher menu'">
+          <nb-icon icon="arrow-ios-back-outline" [class.is-compact]="sidebarCompact()"></nb-icon>
         </button>
         <button class="brand" type="button" (click)="goToHome()">
           <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo_task">
+          @if (auth.currentUser()?.workplace) {
+            <span class="workspace-chip">{{ auth.currentUser()?.workplace }}</span>
+          }
         </button>
       </div>
 
@@ -30,12 +34,32 @@
     </div>
   </nb-layout-header>
 
-  <nb-sidebar *ngIf="auth.isAuthenticated()" tag="menu" state="expanded" responsive compactedBreakpoint="lg" collapsedBreakpoint="sm">
+  <nb-sidebar *ngIf="auth.isAuthenticated()" class="app-sidebar" tag="menu"
+    [state]="sidebarCompact() ? 'compacted' : 'expanded'"
+    compactedBreakpoint="xs" collapsedBreakpoint="sm">
+    @if (!sidebarCompact()) {
+      <div class="sidebar-workspace">
+        <nb-icon icon="briefcase-outline"></nb-icon>
+        <div>
+          <small>Local de trabalho</small>
+          <strong>{{ auth.currentUser()?.workplace || 'TaskTrack' }}</strong>
+        </div>
+      </div>
+    }
     <nb-menu [items]="menu"></nb-menu>
+    <button class="sidebar-collapse" type="button" (click)="toggleSidebar()"
+      [attr.aria-label]="sidebarCompact() ? 'Expandir menu' : 'Recolher menu'">
+      <nb-icon [icon]="sidebarCompact() ? 'arrow-ios-forward-outline' : 'arrow-ios-back-outline'"></nb-icon>
+      @if (!sidebarCompact()) {
+        <span>Recolher menu</span>
+      }
+    </button>
   </nb-sidebar>
 
   <nb-layout-column>
-    <router-outlet></router-outlet>
+    <div class="page-shell">
+      <router-outlet></router-outlet>
+    </div>
   </nb-layout-column>
 
   <nb-layout-footer *ngIf="auth.isAuthenticated()" fixed>

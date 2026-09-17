@@ -26,6 +26,9 @@ import {
 } from '../../constants/task-status';
 import { TaskModel } from '../../models/task-model';
 import { UserModel } from '../../models/user-model';
+import { RichTextEditorComponent } from '../../components/rich-text-editor/rich-text-editor.component';
+import { stripHtml } from '../../shared/html.util';
+import { SafeHtmlPipe } from '../../shared/safe-html.pipe';
 
 type TaskViewMode = 'list' | 'board';
 
@@ -55,6 +58,8 @@ const VIEW_KEY = 'tasktrack.taskView';
     NbIconModule,
     NbTagModule,
     NbSelectModule,
+    RichTextEditorComponent,
+    SafeHtmlPipe,
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
@@ -129,7 +134,7 @@ export class TasksComponent extends BasePage implements OnInit {
     if (this.searchTerm.trim()) {
       const term = normalizeText(this.searchTerm);
       list = list.filter((task) =>
-        normalizeText(`${task.title || ''} ${task.description || ''}`).includes(term),
+        normalizeText(`${task.title || ''} ${stripHtml(task.description)}`).includes(term),
       );
     }
 
@@ -159,6 +164,10 @@ export class TasksComponent extends BasePage implements OnInit {
   getStatusColor = getStatusColor;
   getPersonColor = getPersonColor;
   getInitials = getInitials;
+
+  plainText(value?: string): string {
+    return stripHtml(value);
+  }
 
   isOverdue(task: TaskModel): boolean {
     if (task.status === TASK_STATUS.DONE || !task.expirationDate) {

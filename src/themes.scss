@@ -28,8 +28,12 @@ $nb-themes: nb-register-theme((
   header-text-color: #ffffff,
   header-text-subtitle-color: rgba(255, 255, 255, 0.72),
   layout-background-color: #f4f5fb,
-  layout-padding: 1.25rem,
+  layout-padding: 1rem 1rem 1.15rem,
   sidebar-background-color: #ffffff,
+  sidebar-width: 13rem,
+  sidebar-width-compacted: 5.5rem,
+  sidebar-padding: 0.5rem 0,
+  menu-item-padding: 0.55rem 0.85rem,
   footer-background-color: #323259,
   footer-text-color: #ffffff,
   footer-text-highlight-color: #ffffff,
@@ -55,6 +59,10 @@ $nb-themes: nb-register-theme((
   header-text-subtitle-color: rgba(255, 255, 255, 0.72),
   layout-background-color: #16162a,
   sidebar-background-color: #1c1c32,
+  sidebar-width: 13rem,
+  sidebar-width-compacted: 5.5rem,
+  sidebar-padding: 0.5rem 0,
+  menu-item-padding: 0.55rem 0.85rem,
   footer-background-color: #323259,
   footer-text-color: #ffffff,
   footer-text-highlight-color: #ffffff,
@@ -69,16 +77,72 @@ $nb-themes: nb-register-theme((
   box-sizing: border-box;
 }
 
-.content {
-  margin: 15px !important;
+html,
+body {
+  background: #f4f5fb;
+}
+
+.nb-theme-tasktrack-dark html,
+.nb-theme-tasktrack-dark body,
+html.nb-theme-tasktrack-dark,
+body.nb-theme-tasktrack-dark {
+  background: #16162a;
+}
+
+nb-layout .layout {
+  max-width: none;
+  margin: 0;
 }
 
 nb-layout-header nav {
   justify-content: space-between !important;
 
   img.logo_task {
-    width: 132px;
+    width: 118px;
     cursor: pointer;
+  }
+}
+
+nb-menu .menu-item a {
+  font-weight: 500 !important;
+  border-radius: 10px !important;
+  margin: 2px 8px;
+}
+
+nb-sidebar.compacted nb-menu .menu-item a {
+  margin: 4px 8px !important;
+  padding: 0.8rem 0 !important;
+  justify-content: center !important;
+
+  .menu-icon {
+    font-size: 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+    margin: 0 !important;
+  }
+}
+
+nb-menu .menu-item a.active {
+  font-weight: 600 !important;
+}
+
+.rich-content {
+  line-height: 1.55;
+
+  p,
+  ul {
+    margin: 0 0 10px;
+  }
+
+  ul {
+    padding-left: 18px;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    border-radius: 10px;
+    margin: 10px 0;
   }
 }
 
