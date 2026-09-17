@@ -83,7 +83,15 @@
                 <span class="col-check" (click)="$event.stopPropagation()">
                   <input type="checkbox" [checked]="task.status === 2" disabled>
                 </span>
-                <span class="col-title">{{ task.title }}</span>
+                <span class="col-title">
+                  {{ task.title }}
+                  @if (commentCount(task.id)) {
+                    <span class="comment-count">
+                      <nb-icon icon="message-circle-outline"></nb-icon>
+                      {{ commentCount(task.id) }}
+                    </span>
+                  }
+                </span>
                 <span class="hide-sm">
                   <span class="person-chip" [style.background]="getPersonColor(task.responsibleId)" [style.color]="'#fff'">
                     {{ getInitials(task.responsible?.name) }}
@@ -142,6 +150,12 @@
                     {{ getInitials(task.responsible?.name) }}
                   </span>
                   <span>{{ task.expirationDate | date:'dd/MM' }}</span>
+                  @if (commentCount(task.id)) {
+                    <span class="comment-count">
+                      <nb-icon icon="message-circle-outline"></nb-icon>
+                      {{ commentCount(task.id) }}
+                    </span>
+                  }
                   @if (isOverdue(task)) {
                     <span class="status-chip status-overdue">Atrasada</span>
                   }
@@ -189,6 +203,41 @@
           <strong>{{ getStatusName(choosedTask?.status) }}</strong>
         </div>
       </div>
+
+      <section class="comments">
+        <header>
+          <h4>Comentários</h4>
+          <span>{{ commentsOfCurrent().length }}</span>
+        </header>
+
+        <div class="comments-list">
+          @for (comment of commentsOfCurrent(); track comment.id) {
+            <article class="comment">
+              <span class="person-chip" [style.background]="getPersonColor(comment.authorId)" [style.color]="'#fff'">
+                {{ getInitials(comment.author?.name) }}
+              </span>
+              <div>
+                <div class="comment__head">
+                  <strong>{{ comment.author?.name }}</strong>
+                  <small>{{ comment.createdAt | date:'dd/MM HH:mm' }}</small>
+                </div>
+                <p>{{ comment.text }}</p>
+              </div>
+            </article>
+          } @empty {
+            <p class="comments-empty">Nenhum comentário ainda.</p>
+          }
+        </div>
+
+        <div class="comment-composer">
+          <textarea nbInput fullWidth rows="2" [(ngModel)]="newCommentText"
+            placeholder="Escrever um comentário..."></textarea>
+          <button nbButton size="small" status="primary" type="button"
+            [disabled]="!newCommentText.trim()" (click)="addComment()">
+            Comentar
+          </button>
+        </div>
+      </section>
     </nb-card-body>
     <nb-card-footer>
       <button (click)="ref.close()" nbButton status="basic" type="button">Fechar</button>

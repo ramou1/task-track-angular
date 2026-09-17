@@ -1,10 +1,15 @@
 import { BoardModel } from '../models/board-model';
+import { TaskComment } from '../models/comment-model';
 import { TaskModel } from '../models/task-model';
 import { UserModel } from '../models/user-model';
 import { TASK_STATUS } from './task-status';
 
 function localDate(year: number, month: number, day: number): Date {
   return new Date(year, month - 1, day);
+}
+
+function localDateTime(year: number, month: number, day: number, hour: number, minute: number): Date {
+  return new Date(year, month - 1, day, hour, minute);
 }
 
 const IMG = {
@@ -463,5 +468,232 @@ export const MOCK_TASKS: TaskModel[] = [
     responsibleId: '102',
     responsible: MOCK_USERS[2],
     boardId: 'palmeira',
+  },
+];
+
+export const MOCK_COMMENTS: TaskComment[] = [
+  {
+    id: 'c1',
+    taskId: '1',
+    authorId: '100',
+    author: MOCK_USERS[0],
+    text: 'Ana, deixa o hero com um único CTA. Quero testar a versão em português ainda nesta semana.',
+    createdAt: localDateTime(2026, 9, 11, 9, 20),
+  },
+  {
+    id: 'c2',
+    taskId: '1',
+    authorId: '101',
+    author: MOCK_USERS[1],
+    text: 'Protótipo no Figma atualizado. A variante B ficou mais limpa no mobile.',
+    createdAt: localDateTime(2026, 9, 12, 14, 5),
+  },
+  {
+    id: 'c3',
+    taskId: '1',
+    authorId: '103',
+    author: MOCK_USERS[3],
+    text: 'Posso revisar o texto do pricing amanhã de manhã.',
+    createdAt: localDateTime(2026, 9, 12, 16, 40),
+  },
+  {
+    id: 'c4',
+    taskId: '2',
+    authorId: '102',
+    author: MOCK_USERS[2],
+    text: 'Backup completo e restore testado no staging. Runbook publicado na wiki.',
+    createdAt: localDateTime(2026, 9, 5, 11, 10),
+  },
+  {
+    id: 'c5',
+    taskId: '2',
+    authorId: '100',
+    author: MOCK_USERS[0],
+    text: 'Perfeito. Pode marcar como concluído.',
+    createdAt: localDateTime(2026, 9, 5, 11, 45),
+  },
+  {
+    id: 'c6',
+    taskId: '3',
+    authorId: '103',
+    author: MOCK_USERS[3],
+    text: 'OpenAPI já cobre os webhooks. Falta só o changelog para os parceiros.',
+    createdAt: localDateTime(2026, 9, 8, 10, 15),
+  },
+  {
+    id: 'c7',
+    taskId: '3',
+    authorId: '101',
+    author: MOCK_USERS[1],
+    text: 'Se puder, inclui um exemplo de erro 409. Isso aparece bastante no suporte.',
+    createdAt: localDateTime(2026, 9, 9, 18, 2),
+  },
+  {
+    id: 'c8',
+    taskId: '4',
+    authorId: '104',
+    author: MOCK_USERS[4],
+    text: 'No cenário de 1.000 usuários o checkout passou de 800 ms no p95. Vou anexar o gráfico.',
+    createdAt: localDateTime(2026, 9, 13, 15, 30),
+  },
+  {
+    id: 'c9',
+    taskId: '4',
+    authorId: '102',
+    author: MOCK_USERS[2],
+    text: 'Olha o cache da listagem de pedidos. Acho que é dali que vem a latência.',
+    createdAt: localDateTime(2026, 9, 13, 16, 12),
+  },
+  {
+    id: 'c10',
+    taskId: '5',
+    authorId: '101',
+    author: MOCK_USERS[1],
+    text: 'PRs de billing e permissões revisados. CI verde, já aprovei os dois.',
+    createdAt: localDateTime(2026, 9, 7, 17, 50),
+  },
+  {
+    id: 'c11',
+    taskId: '6',
+    authorId: '106',
+    author: MOCK_USERS[6],
+    text: 'Encontrei um cookie sem Secure em homologação. Relatório preliminar vai hoje.',
+    createdAt: localDateTime(2026, 9, 10, 8, 40),
+  },
+  {
+    id: 'c12',
+    taskId: '6',
+    authorId: '100',
+    author: MOCK_USERS[0],
+    text: 'Prioriza isso antes do release candidate. Me avisa se precisar de alguém de infra.',
+    createdAt: localDateTime(2026, 9, 10, 9, 5),
+  },
+  {
+    id: 'c13',
+    taskId: '7',
+    authorId: '104',
+    author: MOCK_USERS[4],
+    text: 'Os cinco temas principais estão no deck. O maior atrito ainda é o cadastro.',
+    createdAt: localDateTime(2026, 9, 14, 13, 22),
+  },
+  {
+    id: 'c14',
+    taskId: '7',
+    authorId: '105',
+    author: MOCK_USERS[5],
+    text: 'Dá para virar um post de conteúdo com esses depoimentos, se a gente anonimizar.',
+    createdAt: localDateTime(2026, 9, 14, 14, 8),
+  },
+  {
+    id: 'c15',
+    taskId: '8',
+    authorId: '106',
+    author: MOCK_USERS[6],
+    text: 'O onboarding atual tem 7 telas. Proposta nova cai para 4, com o mesmo #323259.',
+    createdAt: localDateTime(2026, 9, 12, 11, 0),
+  },
+  {
+    id: 'c16',
+    taskId: '8',
+    authorId: '101',
+    author: MOCK_USERS[1],
+    text: 'Top. Vamos validar com 5 pessoas do time amanhã.',
+    createdAt: localDateTime(2026, 9, 12, 11, 18),
+  },
+  {
+    id: 'c17',
+    taskId: '9',
+    authorId: '102',
+    author: MOCK_USERS[2],
+    text: 'Janela de manutenção confirmada para terça, 23h. Preciso de alguém de plantão.',
+    createdAt: localDateTime(2026, 9, 11, 19, 30),
+  },
+  {
+    id: 'c18',
+    taskId: '9',
+    authorId: '100',
+    author: MOCK_USERS[0],
+    text: 'Henrique fica de plantão. Me manda o checklist 2 horas antes.',
+    createdAt: localDateTime(2026, 9, 11, 19, 48),
+  },
+  {
+    id: 'c19',
+    taskId: '10',
+    authorId: '105',
+    author: MOCK_USERS[5],
+    text: 'As três variantes de anúncio estão no drive. Falta só o UTM do search.',
+    createdAt: localDateTime(2026, 9, 13, 10, 12),
+  },
+  {
+    id: 'c20',
+    taskId: '10',
+    authorId: '103',
+    author: MOCK_USERS[3],
+    text: 'A peça 2 ficou melhor no recorte quadrado. Eu usaria ela como principal.',
+    createdAt: localDateTime(2026, 9, 13, 10, 40),
+  },
+  {
+    id: 'c21',
+    taskId: '11',
+    authorId: '100',
+    author: MOCK_USERS[0],
+    text: 'Incluí os cases da Aurora no deck. Alguém revisa o slide de valores?',
+    createdAt: localDateTime(2026, 9, 12, 8, 55),
+  },
+  {
+    id: 'c22',
+    taskId: '11',
+    authorId: '101',
+    author: MOCK_USERS[1],
+    text: 'Revisei. Troquei a foto da capa e alinhei a tipografia com o kit.',
+    createdAt: localDateTime(2026, 9, 12, 15, 10),
+  },
+  {
+    id: 'c23',
+    taskId: '12',
+    authorId: '103',
+    author: MOCK_USERS[3],
+    text: 'Paleta e tipografia fechadas. Falta só exemplo de aplicação em instagram.',
+    createdAt: localDateTime(2026, 9, 14, 9, 25),
+  },
+  {
+    id: 'c24',
+    taskId: '13',
+    authorId: '105',
+    author: MOCK_USERS[5],
+    text: 'Temas de setembro ok. Outubro ainda está aberto para o cliente validar.',
+    createdAt: localDateTime(2026, 9, 14, 16, 0),
+  },
+  {
+    id: 'c25',
+    taskId: '13',
+    authorId: '104',
+    author: MOCK_USERS[4],
+    text: 'Sugiro um post de bastidores na terceira semana. Performou bem da última vez.',
+    createdAt: localDateTime(2026, 9, 14, 16, 22),
+  },
+  {
+    id: 'c26',
+    taskId: '14',
+    authorId: '104',
+    author: MOCK_USERS[4],
+    text: 'Checklist padronizado e enviado para o time. Já usamos na publicação de ontem.',
+    createdAt: localDateTime(2026, 9, 12, 12, 30),
+  },
+  {
+    id: 'c27',
+    taskId: '15',
+    authorId: '102',
+    author: MOCK_USERS[2],
+    text: 'VPN e e-mails listados. Ainda faltam dois logins de ferramenta de design.',
+    createdAt: localDateTime(2026, 9, 10, 17, 15),
+  },
+  {
+    id: 'c28',
+    taskId: '15',
+    authorId: '106',
+    author: MOCK_USERS[6],
+    text: 'Esses dois estão no 1Password da Casa Palmeira. Posso passar o cofre.',
+    createdAt: localDateTime(2026, 9, 10, 17, 41),
   },
 ];

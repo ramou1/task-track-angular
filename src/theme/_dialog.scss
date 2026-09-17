@@ -10,11 +10,13 @@ nb-card.user-view-dialog {
 }
 
 nb-card.task-view-dialog {
-    width: min(640px, 94vw);
+    width: min(720px, 94vw);
 
     nb-card-body {
         padding: 16px !important;
         text-align: left;
+        max-height: min(78vh, 760px);
+        overflow: auto;
     }
 }
 

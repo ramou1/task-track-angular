@@ -1,6 +1,6 @@
 import { CdkDragDrop, DragDropModule, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, effect, Injector, OnInit, TemplateRef } from '@angular/core';
+import { Component, effect, inject, Injector, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   NbButtonModule,
@@ -15,6 +15,7 @@ import {
 } from '@nebular/theme';
 import { firstValueFrom } from 'rxjs';
 import { BasePage } from '../../../services/base-page';
+import { AuthService } from '../../../services/auth.service';
 import { MSG_CONST } from '../../constants/message.const';
 import {
   getInitials,
@@ -24,6 +25,7 @@ import {
   normalizeText,
   TASK_STATUS,
 } from '../../constants/task-status';
+import { TaskComment } from '../../models/comment-model';
 import { TaskModel } from '../../models/task-model';
 import { UserModel } from '../../models/user-model';
 import { RichTextEditorComponent } from '../../components/rich-text-editor/rich-text-editor.component';
@@ -65,6 +67,7 @@ const VIEW_KEY = 'tasktrack.taskView';
   styleUrl: './tasks.component.scss',
 })
 export class TasksComponent extends BasePage implements OnInit {
+  readonly auth = inject(AuthService);
   selectedSort: number | null = null;
   selectedStatusFilter: number | null = null;
   selectedResponsible: string | null = null;
@@ -77,6 +80,7 @@ export class TasksComponent extends BasePage implements OnInit {
   tasksForm!: FormGroup;
   editing = false;
   choosedTask: TaskModel | null = null;
+  newCommentText = '';
   minDate: Date = new Date();
 
   constructor(public injector: Injector) {
@@ -182,6 +186,28 @@ export class TasksComponent extends BasePage implements OnInit {
     return limit < today;
   }
 
+  commentCount(taskId?: string | null): number {
+    this.taskSrvc.comments();
+    return this.taskSrvc.commentCount(taskId);
+  }
+
+  commentsOfCurrent(): TaskComment[] {
+    this.taskSrvc.comments();
+    return this.taskSrvc.commentsOf(this.choosedTask?.id);
+  }
+
+  addComment(): void {
+    const text = this.newCommentText.trim();
+    const taskId = this.choosedTask?.id;
+    const author = this.auth.currentUser();
+    if (!text || !taskId || !author) {
+      return;
+    }
+
+    this.taskSrvc.addComment(taskId, text, author);
+    this.newCommentText = '';
+  }
+
   async drop(event: CdkDragDrop<TaskModel[]>, status: number): Promise<void> {
     if (event.previousContainer === event.container) {
       return;
@@ -196,6 +222,7 @@ export class TasksComponent extends BasePage implements OnInit {
 
   openTaskView(dialog: TemplateRef<unknown>, task: TaskModel): void {
     this.choosedTask = task;
+    this.newCommentText = '';
     this.dialogSrvc.open(dialog);
   }
 
