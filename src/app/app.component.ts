@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Injector, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, Injector, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import {
   NbButtonModule,
-  NbCardModule,
   NbContextMenuModule,
   NbIconModule,
   NbLayoutModule,
@@ -13,12 +12,12 @@ import {
   NbMenuModule,
   NbMenuService,
   NbSidebarModule,
-  NbTagModule,
   NbUserModule,
 } from '@nebular/theme';
 import { filter } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { BasePage } from '../services/base-page';
+import { ThemeService } from '../services/theme.service';
 import { MSG_CONST } from './constants/message.const';
 import { APP_ROUTES } from './constants/routes.const';
 import { getRoleName } from './constants/task-status';
@@ -34,11 +33,9 @@ import { getRoleName } from './constants/task-status';
     NbIconModule,
     NbEvaIconsModule,
     NbMenuModule,
-    NbCardModule,
     NbButtonModule,
     NbContextMenuModule,
     NbUserModule,
-    NbTagModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -46,12 +43,11 @@ import { getRoleName } from './constants/task-status';
 export class AppComponent extends BasePage implements OnInit {
   title = 'TaskTrack';
   readonly auth = inject(AuthService);
+  readonly theme = inject(ThemeService);
   private readonly menuService = inject(NbMenuService);
 
-  @ViewChild('profileDialog') profileDialog?: TemplateRef<unknown>;
-
   readonly contextMenuItems = [
-    { title: 'Meu perfil', icon: 'person-outline', data: { action: 'profile' } },
+    { title: 'Configurações', icon: 'settings-2-outline', data: { action: 'profile' } },
     { title: 'Sair', icon: 'log-out-outline', data: { action: 'logout' } },
   ];
 
@@ -66,6 +62,12 @@ export class AppComponent extends BasePage implements OnInit {
       title: 'Usuários',
       icon: 'people-outline',
       link: `/${APP_ROUTES.USERS}`,
+      pathMatch: 'full',
+    },
+    {
+      title: 'Perfil',
+      icon: 'settings-2-outline',
+      link: `/${APP_ROUTES.PROFILE}`,
       pathMatch: 'full',
     },
   ];
@@ -83,8 +85,8 @@ export class AppComponent extends BasePage implements OnInit {
           this.logout();
         }
 
-        if (item.data?.['action'] === 'profile' && this.profileDialog) {
-          this.dialogSrvc.open(this.profileDialog);
+        if (item.data?.['action'] === 'profile') {
+          this.router.navigate(['/', APP_ROUTES.PROFILE]);
         }
       });
   }
@@ -95,6 +97,14 @@ export class AppComponent extends BasePage implements OnInit {
 
   goToHome(): void {
     this.router.navigate(['/', APP_ROUTES.DASHBOARD]);
+  }
+
+  toggleSidebar(): void {
+    this.sidebarSrvc.toggle(true, 'menu');
+  }
+
+  toggleTheme(): void {
+    this.theme.toggle();
   }
 
   logout(): void {

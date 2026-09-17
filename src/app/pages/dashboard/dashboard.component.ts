@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
-import { NbCardModule, NbIconModule } from '@nebular/theme';
+import { NbIconModule } from '@nebular/theme';
 import { AuthService } from '../../../services/auth.service';
 import { MockTaskService } from '../../../services/mock-task.service';
 import { MockUserService } from '../../../services/mock-user.service';
@@ -10,7 +10,7 @@ import { TasksComponent } from '../tasks/tasks.component';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, NbCardModule, NbIconModule, TasksComponent],
+  imports: [CommonModule, NbIconModule, TasksComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -36,4 +36,14 @@ export class DashboardComponent {
       return new Date(task.expirationDate) < now;
     }).length;
   });
+
+  readonly weekDays = Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setDate(date.getDate() - 2 + index);
+    return date;
+  });
+
+  isToday(date: Date): boolean {
+    return date.toDateString() === this.today.toDateString();
+  }
 }

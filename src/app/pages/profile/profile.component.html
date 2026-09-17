@@ -1,0 +1,47 @@
+<section class="profile-page">
+  <header>
+    <h1>Configurações do perfil</h1>
+    <p>Atualize seus dados e escolha o tema do sistema.</p>
+  </header>
+
+  <div class="profile-grid">
+    <nb-card class="identity-card">
+      <nb-card-body>
+        <div class="avatar">{{ getInitials(auth.currentUser()?.name) }}</div>
+        <h2>{{ auth.currentUser()?.name }}</h2>
+        <p>{{ auth.currentUser()?.email }}</p>
+        <span class="role">{{ getRoleName(auth.currentUser()?.role) }}</span>
+      </nb-card-body>
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>Dados pessoais</nb-card-header>
+      <nb-card-body>
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <input nbInput fullWidth placeholder="Nome" formControlName="name">
+          <input nbInput fullWidth type="email" placeholder="E-mail" formControlName="email">
+          <input nbInput fullWidth placeholder="Telefone" formControlName="phone">
+          <nb-select fullWidth placeholder="Gênero" formControlName="gender">
+            <nb-option value="male">Masculino</nb-option>
+            <nb-option value="female">Feminino</nb-option>
+            <nb-option value="other">Prefiro não dizer</nb-option>
+          </nb-select>
+          <input nbInput fullWidth [type]="showPassword ? 'text' : 'password'" placeholder="Nova senha (opcional)"
+            formControlName="password">
+          <button nbButton status="primary" type="submit">Salvar alterações</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+    <nb-card>
+      <nb-card-header>Aparência</nb-card-header>
+      <nb-card-body class="theme-row">
+        <div>
+          <strong>{{ theme.isDark() ? 'Tema escuro' : 'Tema claro' }}</strong>
+          <p>A cor principal permanece #323259 nos dois modos.</p>
+        </div>
+        <nb-toggle [checked]="theme.isDark()" (checkedChange)="onThemeChange($event)">Escuro</nb-toggle>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</section>

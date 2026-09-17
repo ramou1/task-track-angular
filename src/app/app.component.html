@@ -1,20 +1,30 @@
 <nb-layout [class.auth-layout]="!auth.isAuthenticated()">
   <nb-layout-header *ngIf="auth.isAuthenticated()" fixed>
     <div class="header-bar">
-      <button class="brand" type="button" (click)="goToHome()">
-        <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo_task">
-      </button>
+      <div class="header-left">
+        <button class="menu-toggle" nbButton ghost type="button" (click)="toggleSidebar()" aria-label="Abrir menu">
+          <nb-icon icon="menu-2-outline"></nb-icon>
+        </button>
+        <button class="brand" type="button" (click)="goToHome()">
+          <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo_task">
+        </button>
+      </div>
 
-      <nb-user
-        [name]="auth.currentUser()?.name || 'Usuário'"
-        [title]="getRoleName(auth.currentUser()?.role)"
-        [nbContextMenu]="contextMenuItems"
-        nbContextMenuTag="user-context-menu">
-      </nb-user>
+      <div class="header-right">
+        <button nbButton ghost type="button" (click)="toggleTheme()" [attr.aria-label]="theme.isDark() ? 'Ativar tema claro' : 'Ativar tema escuro'">
+          <nb-icon [icon]="theme.isDark() ? 'sun-outline' : 'moon-outline'"></nb-icon>
+        </button>
+        <nb-user
+          [name]="auth.currentUser()?.name || 'Usuário'"
+          [title]="getRoleName(auth.currentUser()?.role)"
+          [nbContextMenu]="contextMenuItems"
+          nbContextMenuTag="user-context-menu">
+        </nb-user>
+      </div>
     </div>
   </nb-layout-header>
 
-  <nb-sidebar *ngIf="auth.isAuthenticated()" state="expanded" compactedBreakpoint="xl" collapsedBreakpoint="md">
+  <nb-sidebar *ngIf="auth.isAuthenticated()" tag="menu" state="expanded" responsive compactedBreakpoint="lg" collapsedBreakpoint="sm">
     <nb-menu [items]="menu"></nb-menu>
   </nb-sidebar>
 
@@ -23,21 +33,8 @@
   </nb-layout-column>
 
   <nb-layout-footer *ngIf="auth.isAuthenticated()" fixed>
-    <span>Desenvolvido por <a href="https://www.linkedin.com/in/ramou1/" target="_blank" rel="noopener">Ramon Oliveira</a>.</span>
+    <div class="app-footer">
+      Desenvolvido por <a href="https://www.linkedin.com/in/ramou1/" target="_blank" rel="noopener">Ramon Oliveira</a>
+    </div>
   </nb-layout-footer>
 </nb-layout>
-
-<ng-template #profileDialog let-ref="dialogRef">
-  <nb-card class="profile-dialog">
-    <nb-card-header>Meu perfil</nb-card-header>
-    <nb-card-body>
-      <p><strong>Nome:</strong> {{ auth.currentUser()?.name }}</p>
-      <p><strong>E-mail:</strong> {{ auth.currentUser()?.email }}</p>
-      <p><strong>Nível:</strong> {{ getRoleName(auth.currentUser()?.role) }}</p>
-    </nb-card-body>
-    <nb-card-footer>
-      <button nbButton status="basic" type="button" (click)="ref.close()">Fechar</button>
-      <button nbButton status="danger" type="button" (click)="ref.close(); logout()">Sair</button>
-    </nb-card-footer>
-  </nb-card>
-</ng-template>

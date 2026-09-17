@@ -33,6 +33,13 @@ export class AuthService {
     this.currentUserSignal.set(null);
   }
 
+  setSession(user: UserModel): UserModel {
+    const session = this.toSession(user);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    this.currentUserSignal.set(session);
+    return session;
+  }
+
   private toSession(user: UserModel): UserModel {
     const { password: _password, ...session } = user;
     return session;

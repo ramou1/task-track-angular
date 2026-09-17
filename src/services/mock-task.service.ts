@@ -42,4 +42,17 @@ export class MockTaskService {
     this.tasksState.update((list) => list.filter((task) => task.id !== taskId));
     return of(undefined);
   }
+
+  updateStatus(taskId: string, status: number): Observable<TaskModel | undefined> {
+    const current = this.tasksState().find((task) => task.id === taskId);
+    if (!current) {
+      return of(undefined);
+    }
+
+    return this.addOrUpdateTask({
+      ...current,
+      status,
+      progress: status === TASK_STATUS.DONE ? 100 : current.progress,
+    });
+  }
 }

@@ -1,4 +1,7 @@
 <section class="login-page">
+  <button class="theme-fab" nbButton ghost type="button" (click)="toggleTheme()" [attr.aria-label]="theme.isDark() ? 'Tema claro' : 'Tema escuro'">
+    <nb-icon [icon]="theme.isDark() ? 'sun-outline' : 'moon-outline'"></nb-icon>
+  </button>
   <div class="login-hero">
     <img src="assets/images/logo_task.png" alt="TaskTrack" class="logo">
     <h1>Organize o trabalho da equipe em um só lugar</h1>

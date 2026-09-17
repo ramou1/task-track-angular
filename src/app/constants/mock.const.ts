@@ -76,7 +76,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '1',
     title: 'Criar landing page',
-    description: 'Desenhar e implementar a nova landing page do produto.',
+    description: 'Design and implement the new product landing page.',
     expirationDate: localDate(2026, 9, 18),
     registerDate: localDate(2026, 8, 20),
     progress: 50,
@@ -87,7 +87,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '2',
     title: 'Backup do banco de dados',
-    description: 'Executar o backup completo do banco de produção.',
+    description: 'Run a full backup of the production database.',
     expirationDate: localDate(2026, 9, 5),
     registerDate: localDate(2026, 8, 28),
     progress: 100,
@@ -98,7 +98,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '3',
     title: 'Atualizar documentação da API',
-    description: 'Incluir os endpoints mais recentes na documentação da API.',
+    description: 'Update the API documentation with the latest endpoints.',
     expirationDate: localDate(2026, 9, 22),
     registerDate: localDate(2026, 9, 1),
     progress: 25,
@@ -109,7 +109,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '4',
     title: 'Testes de performance',
-    description: 'Rodar testes de performance na nova versão da aplicação.',
+    description: 'Run performance tests on the new application release.',
     expirationDate: localDate(2026, 9, 16),
     registerDate: localDate(2026, 9, 2),
     progress: 75,
@@ -120,7 +120,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '5',
     title: 'Revisão de código',
-    description: 'Revisar os pull requests enviados pelo time de desenvolvimento.',
+    description: 'Review pull requests submitted by the development team.',
     expirationDate: localDate(2026, 9, 8),
     registerDate: localDate(2026, 9, 3),
     progress: 100,
@@ -131,7 +131,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '6',
     title: 'Auditoria de segurança',
-    description: 'Conduzir a auditoria de segurança da aplicação web.',
+    description: 'Conduct a security audit of the web application.',
     expirationDate: localDate(2026, 9, 8),
     registerDate: localDate(2026, 9, 4),
     progress: 10,
@@ -142,7 +142,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '7',
     title: 'Análise de feedback',
-    description: 'Analisar o feedback dos usuários da última pesquisa.',
+    description: 'Analyze user feedback from the latest survey.',
     expirationDate: localDate(2026, 9, 24),
     registerDate: localDate(2026, 9, 5),
     progress: 60,
@@ -153,7 +153,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '8',
     title: 'Revisão de UI/UX',
-    description: 'Revisar e refinar o design do aplicativo mobile.',
+    description: 'Review and refine the mobile app UI/UX design.',
     expirationDate: localDate(2026, 9, 30),
     registerDate: localDate(2026, 9, 6),
     progress: 20,
@@ -164,7 +164,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '9',
     title: 'Manutenção dos servidores',
-    description: 'Realizar a manutenção de rotina nos servidores da aplicação.',
+    description: 'Perform routine maintenance on the application servers.',
     expirationDate: localDate(2026, 9, 14),
     registerDate: localDate(2026, 9, 7),
     progress: 35,
@@ -175,7 +175,7 @@ export const MOCK_TASKS: TaskModel[] = [
   {
     id: '10',
     title: 'Lançar campanha de marketing',
-    description: 'Lançar a nova campanha de marketing do próximo produto.',
+    description: 'Launch the new marketing campaign for the upcoming product.',
     expirationDate: localDate(2026, 10, 1),
     registerDate: localDate(2026, 9, 8),
     progress: 40,

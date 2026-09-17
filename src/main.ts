@@ -27,7 +27,7 @@ bootstrapApplication(AppComponent, {
     importProvidersFrom(
       BrowserModule,
       BrowserAnimationsModule,
-      NbThemeModule.forRoot({ name: 'cosmic' }),
+      NbThemeModule.forRoot({ name: 'tasktrack-light' }),
       NbDatepickerModule.forRoot(),
       NbDateFnsDateModule,
       NbDialogModule.forRoot(),

@@ -56,6 +56,21 @@ export function getRoleColor(role?: string): NbComponentStatus {
   }
 }
 
+export function getPersonColor(id?: string): string {
+  const palette = ['#9d50dd', '#579bfc', '#00c875', '#fdab3d', '#e2445c', '#037f4c', '#323259'];
+  const index = Number(id || 0) % palette.length;
+  return palette[Number.isNaN(index) ? 0 : index];
+}
+
+export function getInitials(name?: string): string {
+  if (!name) {
+    return 'U';
+  }
+
+  const parts = name.trim().split(/\s+/);
+  return `${parts[0]?.[0] || ''}${parts[1]?.[0] || ''}`.toUpperCase();
+}
+
 export function normalizeText(value: string): string {
   return value
     .normalize('NFD')

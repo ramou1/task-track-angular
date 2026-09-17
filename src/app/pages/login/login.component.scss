@@ -4,6 +4,13 @@
   grid-template-columns: 1.1fr 0.9fr;
   gap: 32px;
   align-items: center;
+  position: relative;
+}
+
+.theme-fab {
+  position: absolute;
+  top: -8px;
+  right: 0;
 }
 
 .login-hero {
@@ -64,7 +71,7 @@
   display: grid;
   gap: 6px;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-basic-color-3);
 
   strong {
     font-size: 12px;

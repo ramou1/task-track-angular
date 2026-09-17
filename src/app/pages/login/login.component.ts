@@ -6,6 +6,7 @@ import { NbButtonModule, NbCardModule, NbFormFieldModule, NbIconModule, NbInputM
 import { MSG_CONST } from '../../constants/message.const';
 import { APP_ROUTES } from '../../constants/routes.const';
 import { AuthService } from '../../../services/auth.service';
+import { ThemeService } from '../../../services/theme.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toastr = inject(NbToastrService);
+  readonly theme = inject(ThemeService);
 
   showPassword = false;
   submitting = false;
@@ -69,5 +71,9 @@ export class LoginComponent {
 
     this.toastr.success(MSG_CONST.LOGIN_OK, 'Bem-vindo');
     this.router.navigate(['/', APP_ROUTES.DASHBOARD]);
+  }
+
+  toggleTheme(): void {
+    this.theme.toggle();
   }
 }

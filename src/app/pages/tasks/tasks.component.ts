@@ -1,3 +1,4 @@
+import { CdkDragDrop, DragDropModule, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Component, effect, Injector, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -9,17 +10,33 @@ import {
   NbFormFieldModule,
   NbIconModule,
   NbInputModule,
-  NbProgressBarModule,
   NbSelectModule,
   NbTagModule,
 } from '@nebular/theme';
-import { NgxPaginationModule } from 'ngx-pagination';
 import { firstValueFrom } from 'rxjs';
 import { BasePage } from '../../../services/base-page';
 import { MSG_CONST } from '../../constants/message.const';
-import { getStatusColor, getStatusName, normalizeText, TASK_STATUS } from '../../constants/task-status';
+import {
+  getInitials,
+  getPersonColor,
+  getStatusColor,
+  getStatusName,
+  normalizeText,
+  TASK_STATUS,
+} from '../../constants/task-status';
 import { TaskModel } from '../../models/task-model';
 import { UserModel } from '../../models/user-model';
+
+type TaskViewMode = 'list' | 'board';
+
+interface TaskGroup {
+  status: number;
+  title: string;
+  color: string;
+  tasks: TaskModel[];
+}
+
+const VIEW_KEY = 'tasktrack.taskView';
 
 @Component({
   selector: 'app-tasks',
@@ -28,6 +45,7 @@ import { UserModel } from '../../models/user-model';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    DragDropModule,
     NbFormFieldModule,
     NbInputModule,
     NbDatepickerModule,
@@ -35,10 +53,8 @@ import { UserModel } from '../../models/user-model';
     NbCardModule,
     NbButtonModule,
     NbIconModule,
-    NbProgressBarModule,
     NbTagModule,
     NbSelectModule,
-    NgxPaginationModule,
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
@@ -48,12 +64,14 @@ export class TasksComponent extends BasePage implements OnInit {
   selectedStatusFilter: number | null = null;
   selectedResponsible: string | null = null;
   searchTerm = '';
+  viewMode: TaskViewMode = this.readView();
   taskResponsibles: UserModel[] = [];
   filteredTasks: TaskModel[] = [];
+  groups: TaskGroup[] = [];
+  collapsedGroups = new Set<number>();
   tasksForm!: FormGroup;
   editing = false;
   choosedTask: TaskModel | null = null;
-  p = 1;
   minDate: Date = new Date();
 
   constructor(public injector: Injector) {
@@ -77,16 +95,31 @@ export class TasksComponent extends BasePage implements OnInit {
       title: ['', Validators.required],
       description: ['', Validators.required],
       expirationDate: ['', Validators.required],
-      progress: [0, [Validators.required, Validators.min(0), Validators.max(100)]],
       status: [TASK_STATUS.PENDING, Validators.required],
       responsibleId: ['', Validators.required],
       registerDate: [null],
     });
   }
 
+  setView(mode: TaskViewMode): void {
+    this.viewMode = mode;
+    localStorage.setItem(VIEW_KEY, mode);
+  }
+
+  isCollapsed(status: number): boolean {
+    return this.collapsedGroups.has(status);
+  }
+
+  toggleGroup(status: number): void {
+    if (this.collapsedGroups.has(status)) {
+      this.collapsedGroups.delete(status);
+    } else {
+      this.collapsedGroups.add(status);
+    }
+  }
+
   searchTasks(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
-    this.p = 1;
     this.applyFilters();
   }
 
@@ -95,7 +128,9 @@ export class TasksComponent extends BasePage implements OnInit {
 
     if (this.searchTerm.trim()) {
       const term = normalizeText(this.searchTerm);
-      list = list.filter((task) => normalizeText(task.title || '').includes(term));
+      list = list.filter((task) =>
+        normalizeText(`${task.title || ''} ${task.description || ''}`).includes(term),
+      );
     }
 
     if (this.selectedResponsible) {
@@ -113,10 +148,17 @@ export class TasksComponent extends BasePage implements OnInit {
     }
 
     this.filteredTasks = list;
+    this.groups = [
+      { status: TASK_STATUS.PENDING, title: 'Pendentes', color: '#fdab3d', tasks: list.filter((task) => task.status === TASK_STATUS.PENDING) },
+      { status: TASK_STATUS.IN_PROGRESS, title: 'Em andamento', color: '#579bfc', tasks: list.filter((task) => task.status === TASK_STATUS.IN_PROGRESS) },
+      { status: TASK_STATUS.DONE, title: 'Concluídas', color: '#00c875', tasks: list.filter((task) => task.status === TASK_STATUS.DONE) },
+    ];
   }
 
   getStatusName = getStatusName;
   getStatusColor = getStatusColor;
+  getPersonColor = getPersonColor;
+  getInitials = getInitials;
 
   isOverdue(task: TaskModel): boolean {
     if (task.status === TASK_STATUS.DONE || !task.expirationDate) {
@@ -129,17 +171,28 @@ export class TasksComponent extends BasePage implements OnInit {
     return limit < today;
   }
 
+  async drop(event: CdkDragDrop<TaskModel[]>, status: number): Promise<void> {
+    if (event.previousContainer === event.container) {
+      return;
+    }
+
+    transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    const task = event.container.data[event.currentIndex];
+    if (task?.id) {
+      await firstValueFrom(this.taskSrvc.updateStatus(task.id, status));
+    }
+  }
+
   openTaskView(dialog: TemplateRef<unknown>, task: TaskModel): void {
     this.choosedTask = task;
     this.dialogSrvc.open(dialog);
   }
 
-  openTaskDialog(dialog: TemplateRef<unknown>, task?: TaskModel | null): void {
+  openTaskDialog(dialog: TemplateRef<unknown>, task?: TaskModel | null, status?: number): void {
     this.editing = !!task;
     this.choosedTask = task || null;
     this.tasksForm.reset({
-      progress: 0,
-      status: TASK_STATUS.PENDING,
+      status: status ?? TASK_STATUS.PENDING,
     });
 
     if (task) {
@@ -190,5 +243,9 @@ export class TasksComponent extends BasePage implements OnInit {
       this.toastrSrvc.danger(MSG_CONST.SAVE_DATA_ERROR, 'Erro');
       console.error(error);
     }
+  }
+
+  private readView(): TaskViewMode {
+    return localStorage.getItem(VIEW_KEY) === 'board' ? 'board' : 'list';
   }
 }

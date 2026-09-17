@@ -1,7 +1,13 @@
-.header-bar {
+.header-bar,
+.header-left,
+.header-right {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
+}
+
+.header-bar {
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -16,15 +22,39 @@
 
 nb-layout-header {
   .logo_task {
-    width: 140px;
+    width: 132px;
+  }
+
+  button[nbButton] {
+    color: #fff !important;
   }
 }
 
-.profile-dialog {
-  width: min(420px, 92vw);
+.menu-toggle {
+  display: none;
+}
 
-  p {
-    margin: 0 0 10px;
+:host ::ng-deep nb-layout-footer {
+  nav {
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 2.75rem !important;
+    height: 2.75rem !important;
+    padding: 0 16px !important;
+  }
+}
+
+.app-footer {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1;
+  color: #fff;
+
+  a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
   }
 }
 
@@ -32,4 +62,26 @@ nb-layout-header {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+:host ::ng-deep .user-title,
+:host ::ng-deep .user-name {
+  color: #fff !important;
+}
+
+@media (max-width: 992px) {
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  :host ::ng-deep nb-user .user-name,
+  :host ::ng-deep nb-user .user-title {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  nb-layout-header .logo_task {
+    width: 108px;
+  }
 }

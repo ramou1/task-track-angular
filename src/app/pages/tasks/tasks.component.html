@@ -1,98 +1,160 @@
 <section class="tasks-panel">
   <div class="panel-heading">
     <div>
-      <h2>Lista de tarefas</h2>
-      <p>Clique em uma tarefa para ver os detalhes.</p>
+      <h2>Tarefas</h2>
+      <p>Visualize em lista ou colunas. Clique em uma tarefa para abrir os detalhes.</p>
     </div>
-    <button (click)="openTaskDialog(formDialog)" nbButton status="primary" type="button">
-      <nb-icon icon="plus-outline"></nb-icon>
-      Nova tarefa
-    </button>
+    <div class="heading-actions">
+      <div class="view-toggle">
+        <button nbButton size="small" type="button" status="basic"
+          [class.is-active]="viewMode === 'list'" (click)="setView('list')">
+          <nb-icon icon="list-outline"></nb-icon>
+          Lista
+        </button>
+        <button nbButton size="small" type="button" status="basic"
+          [class.is-active]="viewMode === 'board'" (click)="setView('board')">
+          <nb-icon icon="grid-outline"></nb-icon>
+          Colunas
+        </button>
+      </div>
+      <button (click)="openTaskDialog(formDialog)" nbButton status="primary" type="button">
+        <nb-icon icon="plus-outline"></nb-icon>
+        Nova tarefa
+      </button>
+    </div>
   </div>
 
-  <nb-card>
-    <nb-card-header>
-      <div class="flex-container">
-        <div class="custom-search">
-          <input type="text" nbInput fullWidth placeholder="Pesquisar tarefas..." (input)="searchTasks($event)">
-        </div>
-
-        <div class="right-actions">
-          <nb-form-field>
-            <nb-icon nbPrefix icon="person-outline"></nb-icon>
-            <nb-select placeholder="Responsável" [(ngModel)]="selectedResponsible" (ngModelChange)="applyFilters()">
-              <nb-option [value]="null">Todos os usuários</nb-option>
-              @for (responsible of taskResponsibles; track responsible.id) {
-                <nb-option [value]="responsible.id">{{ responsible.name }}</nb-option>
-              }
-            </nb-select>
-          </nb-form-field>
-
-          <nb-form-field>
-            <nb-icon nbPrefix icon="funnel-outline"></nb-icon>
-            <nb-select placeholder="Status" [(ngModel)]="selectedStatusFilter" (ngModelChange)="applyFilters()">
-              <nb-option [value]="null">Todas as tarefas</nb-option>
-              <nb-option [value]="0">Pendentes</nb-option>
-              <nb-option [value]="1">Em andamento</nb-option>
-              <nb-option [value]="2">Concluídas</nb-option>
-            </nb-select>
-          </nb-form-field>
-
-          <nb-form-field>
-            <nb-icon nbPrefix icon="options-2-outline"></nb-icon>
-            <nb-select placeholder="Ordenação" [(ngModel)]="selectedSort" (ngModelChange)="applyFilters()">
-              <nb-option [value]="0">Vencimento crescente</nb-option>
-              <nb-option [value]="1">Vencimento decrescente</nb-option>
-            </nb-select>
-          </nb-form-field>
-        </div>
-      </div>
-    </nb-card-header>
-
+  <nb-card class="toolbar-card">
     <nb-card-body>
-      <div class="task-list">
-        @for (task of filteredTasks | paginate: { itemsPerPage: 6, currentPage: p }; track task.id) {
-          <article class="task-item" (click)="openTaskView(viewDialog, task)">
-            <div class="task-item__header">
-              <div>
-                <h3>{{ task.title }}</h3>
-                <p>{{ task.description }}</p>
-              </div>
-              <div class="task-item__tags">
-                <nb-tag [text]="getStatusName(task.status)" [status]="getStatusColor(task.status)"></nb-tag>
-                @if (isOverdue(task)) {
-                  <nb-tag text="Atrasada" status="danger"></nb-tag>
-                }
-              </div>
-            </div>
-
-            <nb-progress-bar [value]="task.progress ?? 0" size="tiny" status="primary"></nb-progress-bar>
-
-            <div class="task-item__footer">
-              <span>{{ task.expirationDate | date:'dd/MM/yyyy' }}</span>
-              <span>{{ task.responsible?.name || 'Sem responsável' }}</span>
-              <div class="task-item__actions">
-                <button nbButton (click)="openTaskDialog(formDialog, task); $event.stopPropagation()" status="success"
-                  type="button" ghost size="small">
-                  <nb-icon icon="edit-outline"></nb-icon>
-                </button>
-                <button nbButton (click)="openDeleteDialog(deleteDialog, task); $event.stopPropagation()" status="danger"
-                  type="button" ghost size="small">
-                  <nb-icon icon="trash-outline"></nb-icon>
-                </button>
-              </div>
-            </div>
-          </article>
-        } @empty {
-          <div class="empty-state">Nenhuma tarefa encontrada.</div>
-        }
+      <div class="filters-row">
+        <input class="filter-item" type="text" nbInput fullWidth placeholder="Pesquisar tarefas..." (input)="searchTasks($event)">
+        <nb-form-field class="filter-item">
+          <nb-icon nbPrefix icon="person-outline"></nb-icon>
+          <nb-select placeholder="Pessoa" fullWidth [(ngModel)]="selectedResponsible" (ngModelChange)="applyFilters()">
+            <nb-option [value]="null">Todas as pessoas</nb-option>
+            @for (responsible of taskResponsibles; track responsible.id) {
+              <nb-option [value]="responsible.id">{{ responsible.name }}</nb-option>
+            }
+          </nb-select>
+        </nb-form-field>
+        <nb-form-field class="filter-item">
+          <nb-icon nbPrefix icon="funnel-outline"></nb-icon>
+          <nb-select placeholder="Status" fullWidth [(ngModel)]="selectedStatusFilter" (ngModelChange)="applyFilters()">
+            <nb-option [value]="null">Todos os status</nb-option>
+            <nb-option [value]="0">Pendentes</nb-option>
+            <nb-option [value]="1">Em andamento</nb-option>
+            <nb-option [value]="2">Concluídas</nb-option>
+          </nb-select>
+        </nb-form-field>
+        <nb-form-field class="filter-item">
+          <nb-icon nbPrefix icon="options-2-outline"></nb-icon>
+          <nb-select placeholder="Ordenar" fullWidth [(ngModel)]="selectedSort" (ngModelChange)="applyFilters()">
+            <nb-option [value]="0">Data crescente</nb-option>
+            <nb-option [value]="1">Data decrescente</nb-option>
+          </nb-select>
+        </nb-form-field>
       </div>
-
-      @if (filteredTasks.length > 6) {
-        <pagination-controls (pageChange)="p = $event" previousLabel="Anterior" nextLabel="Próxima"></pagination-controls>
-      }
     </nb-card-body>
   </nb-card>
+
+  @if (viewMode === 'list') {
+    <div class="monday-board">
+      @for (group of groups; track group.status) {
+        <section class="monday-group" [style.--group-color]="group.color">
+          <header class="monday-group__header" (click)="toggleGroup(group.status)">
+            <nb-icon [icon]="isCollapsed(group.status) ? 'arrow-ios-forward-outline' : 'arrow-ios-downward-outline'"></nb-icon>
+            <h3 [style.color]="group.color">{{ group.title }}</h3>
+            <span>{{ group.tasks.length }}</span>
+          </header>
+
+          @if (!isCollapsed(group.status)) {
+          <div class="monday-table">
+            <div class="monday-row monday-row--head">
+              <span class="col-check"></span>
+              <span>Tarefa</span>
+              <span class="hide-sm">Responsável</span>
+              <span>Status</span>
+              <span class="hide-sm">Data</span>
+              <span class="col-actions">Ações</span>
+            </div>
+
+            @for (task of group.tasks; track task.id) {
+              <div class="monday-row" (click)="openTaskView(viewDialog, task)">
+                <span class="col-check" (click)="$event.stopPropagation()">
+                  <input type="checkbox" [checked]="task.status === 2" disabled>
+                </span>
+                <span class="col-title">{{ task.title }}</span>
+                <span class="hide-sm">
+                  <span class="person-chip" [style.background]="getPersonColor(task.responsibleId)" [style.color]="'#fff'">
+                    {{ getInitials(task.responsible?.name) }}
+                    {{ task.responsible?.name || '—' }}
+                  </span>
+                </span>
+                <span>
+                  <span class="status-chip" [ngClass]="'status-' + task.status">{{ getStatusName(task.status) }}</span>
+                  @if (isOverdue(task)) {
+                    <span class="status-chip status-overdue">Atrasada</span>
+                  }
+                </span>
+                <span class="hide-sm">{{ task.expirationDate | date:'d MMM' }}</span>
+                <span class="col-actions" (click)="$event.stopPropagation()">
+                  <button nbButton ghost size="tiny" status="success" type="button"
+                    (click)="openTaskDialog(formDialog, task)">
+                    <nb-icon icon="edit-outline"></nb-icon>
+                  </button>
+                  <button nbButton ghost size="tiny" status="danger" type="button"
+                    (click)="openDeleteDialog(deleteDialog, task)">
+                    <nb-icon icon="trash-outline"></nb-icon>
+                  </button>
+                </span>
+              </div>
+            }
+
+            <button class="add-row" type="button" (click)="openTaskDialog(formDialog, null, group.status)">
+              + Adicionar tarefa
+            </button>
+          </div>
+          }
+        </section>
+      }
+    </div>
+  } @else {
+    <div class="kanban" cdkDropListGroup>
+      @for (group of groups; track group.status) {
+        <section class="kanban-column" [style.--group-color]="group.color">
+          <header>
+            <div>
+              <strong>{{ group.title }}</strong>
+              <span>{{ group.tasks.length }}</span>
+            </div>
+            <button nbButton ghost size="tiny" type="button" (click)="openTaskDialog(formDialog, null, group.status)">
+              <nb-icon icon="plus-outline"></nb-icon>
+            </button>
+          </header>
+          <div class="kanban-list" cdkDropList [cdkDropListData]="group.tasks"
+            (cdkDropListDropped)="drop($event, group.status)">
+            @for (task of group.tasks; track task.id) {
+              <article class="kanban-card" cdkDrag [cdkDragData]="task" (click)="openTaskView(viewDialog, task)">
+                <h4>{{ task.title }}</h4>
+                <p>{{ task.description }}</p>
+                <div class="kanban-card__meta">
+                  <span class="person-chip" [style.background]="getPersonColor(task.responsibleId)" [style.color]="'#fff'">
+                    {{ getInitials(task.responsible?.name) }}
+                  </span>
+                  <span>{{ task.expirationDate | date:'dd/MM' }}</span>
+                  @if (isOverdue(task)) {
+                    <span class="status-chip status-overdue">Atrasada</span>
+                  }
+                </div>
+              </article>
+            } @empty {
+              <p class="empty-column">Nenhum card nesta coluna.</p>
+            }
+          </div>
+        </section>
+      }
+    </div>
+  }
 </section>
 
 <ng-template #viewDialog let-ref="dialogRef">
@@ -100,7 +162,7 @@
     <nb-card-header>
       <div class="view-header">
         <h3>{{ choosedTask?.title }}</h3>
-        <nb-tag [text]="getStatusName(choosedTask?.status)" [status]="getStatusColor(choosedTask?.status)"></nb-tag>
+        <span class="status-chip" [ngClass]="'status-' + choosedTask?.status">{{ getStatusName(choosedTask?.status) }}</span>
       </div>
     </nb-card-header>
     <nb-card-body>
@@ -119,11 +181,10 @@
           <strong>{{ choosedTask?.expirationDate | date:'dd/MM/yyyy' }}</strong>
         </div>
         <div>
-          <span>Progresso</span>
-          <strong>{{ choosedTask?.progress ?? 0 }}%</strong>
+          <span>Status</span>
+          <strong>{{ getStatusName(choosedTask?.status) }}</strong>
         </div>
       </div>
-      <nb-progress-bar [value]="choosedTask?.progress ?? 0" status="primary"></nb-progress-bar>
     </nb-card-body>
     <nb-card-footer>
       <button (click)="ref.close()" nbButton status="basic" type="button">Fechar</button>
@@ -146,31 +207,25 @@
       <form [formGroup]="tasksForm">
         <input type="text" nbInput fullWidth placeholder="Título da tarefa" formControlName="title">
         <textarea nbInput fullWidth rows="5" placeholder="Descrição da tarefa" formControlName="description"></textarea>
-
         <div class="row">
           <input nbInput fullWidth [nbDatepicker]="datepicker" placeholder="Data de vencimento" formControlName="expirationDate">
-          <nb-datepicker #datepicker [min]="minDate" format="dd/MM/yyyy"></nb-datepicker>
-
+          <nb-datepicker #datepicker format="dd/MM/yyyy"></nb-datepicker>
           <nb-select fullWidth placeholder="Status" formControlName="status">
             <nb-option [value]="0">Pendente</nb-option>
             <nb-option [value]="1">Em andamento</nb-option>
             <nb-option [value]="2">Concluída</nb-option>
           </nb-select>
         </div>
-
-        <div class="row">
-          <input type="number" nbInput fullWidth min="0" max="100" placeholder="Progresso (%)" formControlName="progress">
-          <nb-select fullWidth placeholder="Responsável" formControlName="responsibleId">
-            @for (responsible of taskResponsibles; track responsible.id) {
-              <nb-option [value]="responsible.id">{{ responsible.name }}</nb-option>
-            }
-          </nb-select>
-        </div>
+        <nb-select fullWidth placeholder="Responsável" formControlName="responsibleId">
+          @for (responsible of taskResponsibles; track responsible.id) {
+            <nb-option [value]="responsible.id">{{ responsible.name }}</nb-option>
+          }
+        </nb-select>
       </form>
     </nb-card-body>
     <nb-card-footer>
       <button (click)="ref.close()" nbButton status="basic" type="button">Cancelar</button>
-      <button [disabled]="tasksForm.invalid" (click)="addOrUpdateTask(); ref.close()" nbButton status="success" type="button">
+      <button [disabled]="tasksForm.invalid" (click)="addOrUpdateTask(); ref.close()" nbButton status="primary" type="button">
         {{ editing ? 'Salvar' : 'Adicionar' }}
       </button>
     </nb-card-footer>

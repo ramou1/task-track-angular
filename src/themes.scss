@@ -1,5 +1,6 @@
 @forward '@nebular/theme/styles/theming';
 @use '@nebular/theme/styles/theming' as *;
+@use '@nebular/theme/styles/themes/default';
 @use '@nebular/theme/styles/themes/cosmic';
 
 @use "theme/card";
@@ -10,27 +11,73 @@
 @use "theme/progress";
 @use "theme/typography";
 
-$nb-themes: nb-register-theme((font-family: 'Effra'), cosmic, cosmic);
+$brand: #323259;
+
+$nb-themes: nb-register-theme((
+  font-family: 'Effra',
+  color-primary-100: #ececf6,
+  color-primary-200: #c9c9de,
+  color-primary-300: #8e8eb8,
+  color-primary-400: #4a4a7a,
+  color-primary-500: $brand,
+  color-primary-600: #2b2b4c,
+  color-primary-700: #23233e,
+  color-primary-800: #1c1c32,
+  color-primary-900: #141424,
+  header-background-color: $brand,
+  header-text-color: #ffffff,
+  header-text-subtitle-color: rgba(255, 255, 255, 0.72),
+  layout-background-color: #f4f5fb,
+  layout-padding: 1.25rem,
+  sidebar-background-color: #ffffff,
+  footer-background-color: #323259,
+  footer-text-color: #ffffff,
+  footer-text-highlight-color: #ffffff,
+  footer-height: 2.75rem,
+  footer-padding: 0 1.25rem,
+  card-border-radius: 1rem,
+  border-radius: 0.75rem,
+), tasktrack-light, default);
+
+$nb-themes: nb-register-theme((
+  font-family: 'Effra',
+  color-primary-100: #ececf6,
+  color-primary-200: #c9c9de,
+  color-primary-300: #8e8eb8,
+  color-primary-400: #4a4a7a,
+  color-primary-500: $brand,
+  color-primary-600: #2b2b4c,
+  color-primary-700: #23233e,
+  color-primary-800: #1c1c32,
+  color-primary-900: #141424,
+  header-background-color: $brand,
+  header-text-color: #ffffff,
+  header-text-subtitle-color: rgba(255, 255, 255, 0.72),
+  layout-background-color: #16162a,
+  sidebar-background-color: #1c1c32,
+  footer-background-color: #323259,
+  footer-text-color: #ffffff,
+  footer-text-highlight-color: #ffffff,
+  footer-height: 2.75rem,
+  footer-padding: 0 1.25rem,
+  card-border-radius: 1rem,
+  border-radius: 0.75rem,
+), tasktrack-dark, cosmic);
 
 * {
   font-family: 'Effra' !important;
+  box-sizing: border-box;
 }
 
 .content {
   margin: 15px !important;
 }
 
-div.divisor {
-  height: 3px;
-  background: #bff6e0;
-  margin: 45px 0;
-}
-
 nb-layout-header nav {
   justify-content: space-between !important;
 
   img.logo_task {
-    width: 140px;
+    width: 132px;
     cursor: pointer;
   }
 }
@@ -39,4 +86,32 @@ pagination-controls {
   display: flex;
   justify-content: center;
   padding: 12px 0 4px;
+}
+
+.person-chip,
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.status-chip {
+  color: #fff;
+
+  &.status-0 { background: #fdab3d; }
+  &.status-1 { background: #579bfc; }
+  &.status-2 { background: #00c875; }
+  &.status-overdue { background: #e2445c; }
+}
+
+@media (max-width: 768px) {
+  nb-layout-header nav {
+    padding: 0 12px !important;
+  }
 }

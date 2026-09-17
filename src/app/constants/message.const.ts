@@ -9,4 +9,7 @@ export const MSG_CONST = {
   NOT_AVAILABLE: 'Função indisponível nessa versão.',
   SAVE_DATA_ERROR: 'Erro ao salvar os dados.',
   SAVE_DATA_OK: 'Dados salvos!',
+  PROFILE_OK: 'Perfil atualizado!',
+  THEME_LIGHT: 'Tema claro ativado.',
+  THEME_DARK: 'Tema escuro ativado.',
 };
