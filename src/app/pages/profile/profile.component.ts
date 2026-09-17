@@ -15,7 +15,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MockUserService } from '../../../services/mock-user.service';
 import { ThemeService } from '../../../services/theme.service';
 import { MSG_CONST } from '../../constants/message.const';
-import { getInitials, getRoleName } from '../../constants/task-status';
+import { getInitials, getPersonColor, getRoleName } from '../../constants/task-status';
 
 @Component({
   selector: 'app-profile',
@@ -41,8 +41,10 @@ export class ProfileComponent implements OnInit {
   private readonly toastr = inject(NbToastrService);
 
   readonly getInitials = getInitials;
+  readonly getPersonColor = getPersonColor;
   readonly getRoleName = getRoleName;
   showPassword = false;
+  photoPreview: string | null = null;
 
   readonly form = this.fb.group({
     name: ['', Validators.required],
@@ -89,6 +91,20 @@ export class ProfileComponent implements OnInit {
     this.auth.setSession(payload);
     this.toastr.success(MSG_CONST.PROFILE_OK, 'Pronto');
     this.form.patchValue({ password: '' });
+  }
+
+  onPhotoSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.photoPreview = String(reader.result || '');
+      this.toastr.success('Pré-visualização pronta. O upload ainda não está disponível.', 'Foto');
+    };
+    reader.readAsDataURL(file);
   }
 
   toggleTheme(): void {

@@ -11,16 +11,23 @@ import {
   NbMenuItem,
   NbMenuModule,
   NbMenuService,
+  NbPopoverModule,
   NbSidebarModule,
   NbUserModule,
 } from '@nebular/theme';
 import { filter } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { BasePage } from '../services/base-page';
-import { ThemeService } from '../services/theme.service';
 import { MSG_CONST } from './constants/message.const';
 import { APP_ROUTES } from './constants/routes.const';
-import { getRoleName } from './constants/task-status';
+import { getPersonColor, getRoleName } from './constants/task-status';
+
+interface AppNotification {
+  id: number;
+  text: string;
+  time: string;
+  read: boolean;
+}
 
 @Component({
   selector: 'app-root',
@@ -36,6 +43,7 @@ import { getRoleName } from './constants/task-status';
     NbButtonModule,
     NbContextMenuModule,
     NbUserModule,
+    NbPopoverModule,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -43,8 +51,17 @@ import { getRoleName } from './constants/task-status';
 export class AppComponent extends BasePage implements OnInit {
   title = 'TaskTrack';
   readonly auth = inject(AuthService);
-  readonly theme = inject(ThemeService);
   private readonly menuService = inject(NbMenuService);
+
+  readonly getPersonColor = getPersonColor;
+  readonly getRoleName = getRoleName;
+
+  notifications: AppNotification[] = [
+    { id: 1, text: 'A tarefa Auditoria de segurança está atrasada.', time: 'Há 8 min', read: false },
+    { id: 2, text: 'Alice Johnson concluiu a Revisão de código.', time: 'Há 25 min', read: false },
+    { id: 3, text: 'Uma nova tarefa foi atribuída a você: Criar landing page.', time: 'Há 1 h', read: false },
+    { id: 4, text: 'Bob Smith atualizou o Backup do banco de dados.', time: 'Ontem', read: true },
+  ];
 
   readonly contextMenuItems = [
     { title: 'Configurações', icon: 'settings-2-outline', data: { action: 'profile' } },
@@ -93,7 +110,13 @@ export class AppComponent extends BasePage implements OnInit {
 
   ngOnInit(): void {}
 
-  getRoleName = getRoleName;
+  get unreadCount(): number {
+    return this.notifications.filter((item) => !item.read).length;
+  }
+
+  markNotificationsRead(): void {
+    this.notifications = this.notifications.map((item) => ({ ...item, read: true }));
+  }
 
   goToHome(): void {
     this.router.navigate(['/', APP_ROUTES.DASHBOARD]);
@@ -101,10 +124,6 @@ export class AppComponent extends BasePage implements OnInit {
 
   toggleSidebar(): void {
     this.sidebarSrvc.toggle(true, 'menu');
-  }
-
-  toggleTheme(): void {
-    this.theme.toggle();
   }
 
   logout(): void {

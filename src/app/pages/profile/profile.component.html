@@ -1,47 +1,80 @@
 <section class="profile-page">
   <header>
     <h1>Configurações do perfil</h1>
-    <p>Atualize seus dados e escolha o tema do sistema.</p>
+    <p>Atualize seus dados pessoais e a aparência do sistema.</p>
   </header>
 
   <div class="profile-grid">
     <nb-card class="identity-card">
       <nb-card-body>
-        <div class="avatar">{{ getInitials(auth.currentUser()?.name) }}</div>
+        @if (photoPreview) {
+          <img class="avatar" [src]="photoPreview" alt="Foto do perfil">
+        } @else {
+          <div class="avatar" [style.background]="getPersonColor(auth.currentUser()?.id)">
+            {{ getInitials(auth.currentUser()?.name) }}
+          </div>
+        }
         <h2>{{ auth.currentUser()?.name }}</h2>
         <p>{{ auth.currentUser()?.email }}</p>
         <span class="role">{{ getRoleName(auth.currentUser()?.role) }}</span>
+        <input #photoInput type="file" accept="image/*" hidden (change)="onPhotoSelected($event)">
+        <button nbButton size="small" status="basic" type="button" (click)="photoInput.click()">
+          <nb-icon icon="camera-outline"></nb-icon>
+          Trocar foto
+        </button>
+        <small class="photo-hint">Apenas pré-visualização nesta versão.</small>
       </nb-card-body>
     </nb-card>
 
-    <nb-card>
-      <nb-card-header>Dados pessoais</nb-card-header>
-      <nb-card-body>
-        <form [formGroup]="form" (ngSubmit)="save()">
-          <input nbInput fullWidth placeholder="Nome" formControlName="name">
-          <input nbInput fullWidth type="email" placeholder="E-mail" formControlName="email">
-          <input nbInput fullWidth placeholder="Telefone" formControlName="phone">
-          <nb-select fullWidth placeholder="Gênero" formControlName="gender">
-            <nb-option value="male">Masculino</nb-option>
-            <nb-option value="female">Feminino</nb-option>
-            <nb-option value="other">Prefiro não dizer</nb-option>
-          </nb-select>
-          <input nbInput fullWidth [type]="showPassword ? 'text' : 'password'" placeholder="Nova senha (opcional)"
-            formControlName="password">
-          <button nbButton status="primary" type="submit">Salvar alterações</button>
-        </form>
-      </nb-card-body>
-    </nb-card>
+    <div class="profile-main">
+      <nb-card>
+        <nb-card-header>Dados pessoais</nb-card-header>
+        <nb-card-body>
+          <form [formGroup]="form" (ngSubmit)="save()">
+            <div class="form-grid">
+              <label>
+                Nome
+                <input nbInput fullWidth placeholder="Seu nome" formControlName="name">
+              </label>
+              <label>
+                E-mail
+                <input nbInput fullWidth type="email" placeholder="Seu e-mail" formControlName="email">
+              </label>
+              <label>
+                Telefone
+                <input nbInput fullWidth placeholder="(00) 00000-0000" formControlName="phone">
+              </label>
+              <label>
+                Gênero
+                <nb-select fullWidth placeholder="Selecione" formControlName="gender">
+                  <nb-option value="male">Masculino</nb-option>
+                  <nb-option value="female">Feminino</nb-option>
+                  <nb-option value="other">Prefiro não dizer</nb-option>
+                </nb-select>
+              </label>
+              <label class="full">
+                Nova senha
+                <input nbInput fullWidth [type]="showPassword ? 'text' : 'password'" placeholder="Deixe em branco para manter a atual"
+                  formControlName="password">
+              </label>
+            </div>
+            <button nbButton status="primary" type="submit">Salvar alterações</button>
+          </form>
+        </nb-card-body>
+      </nb-card>
 
-    <nb-card>
-      <nb-card-header>Aparência</nb-card-header>
-      <nb-card-body class="theme-row">
-        <div>
-          <strong>{{ theme.isDark() ? 'Tema escuro' : 'Tema claro' }}</strong>
-          <p>A cor principal permanece #323259 nos dois modos.</p>
-        </div>
-        <nb-toggle [checked]="theme.isDark()" (checkedChange)="onThemeChange($event)">Escuro</nb-toggle>
-      </nb-card-body>
-    </nb-card>
+      <nb-card>
+        <nb-card-header>Aparência</nb-card-header>
+        <nb-card-body class="theme-row">
+          <div>
+            <strong>{{ theme.isDark() ? 'Tema escuro' : 'Tema claro' }}</strong>
+            <p>Alterne entre o modo claro e o escuro.</p>
+          </div>
+          <nb-toggle status="primary" [checked]="theme.isDark()" (checkedChange)="onThemeChange($event)">
+            Escuro
+          </nb-toggle>
+        </nb-card-body>
+      </nb-card>
+    </div>
   </div>
 </section>

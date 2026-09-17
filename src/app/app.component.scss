@@ -11,6 +11,40 @@
   width: 100%;
 }
 
+.header-right {
+  gap: 4px;
+}
+
+.notif-btn {
+  position: relative;
+}
+
+.notif-dot {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: #e2445c;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+:host ::ng-deep nb-user .user-picture {
+  color: #fff !important;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+}
+
+.header-bar {
+  justify-content: space-between;
+  width: 100%;
+}
+
 .brand {
   display: flex;
   align-items: center;

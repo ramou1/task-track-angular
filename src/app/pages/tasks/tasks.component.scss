@@ -150,12 +150,13 @@
 }
 
 .kanban-column {
-  background: var(--background-basic-color-2);
+  background: color-mix(in srgb, var(--group-color) 22%, var(--background-basic-color-3));
   border-radius: 14px;
   min-height: 320px;
   display: flex;
   flex-direction: column;
   border-top: 4px solid var(--group-color);
+  box-shadow: 0 2px 12px rgba(50, 50, 89, 0.08);
 
   header {
     display: flex;
@@ -188,7 +189,7 @@
 }
 
 .kanban-card {
-  background: var(--background-basic-color-1);
+  background: #fff;
   border-radius: 12px;
   padding: 12px;
   cursor: grab;
@@ -303,4 +304,14 @@
 
 .cdk-drag-animating {
   transition: transform 200ms ease;
+}
+
+:host-context(.nb-theme-tasktrack-dark) {
+  .kanban-column {
+    background: color-mix(in srgb, var(--group-color) 24%, #232345);
+  }
+
+  .kanban-card {
+    background: #2a2a4d;
+  }
 }

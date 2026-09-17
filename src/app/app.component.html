@@ -11,12 +11,18 @@
       </div>
 
       <div class="header-right">
-        <button nbButton ghost type="button" (click)="toggleTheme()" [attr.aria-label]="theme.isDark() ? 'Ativar tema claro' : 'Ativar tema escuro'">
-          <nb-icon [icon]="theme.isDark() ? 'sun-outline' : 'moon-outline'"></nb-icon>
+        <button class="notif-btn" nbButton ghost type="button"
+          [nbPopover]="notificationsTpl" nbPopoverPlacement="bottom" nbPopoverTrigger="click"
+          aria-label="Notificações">
+          <nb-icon icon="bell-outline"></nb-icon>
+          @if (unreadCount) {
+            <span class="notif-dot">{{ unreadCount }}</span>
+          }
         </button>
         <nb-user
           [name]="auth.currentUser()?.name || 'Usuário'"
           [title]="getRoleName(auth.currentUser()?.role)"
+          [color]="getPersonColor(auth.currentUser()?.id)"
           [nbContextMenu]="contextMenuItems"
           nbContextMenuTag="user-context-menu">
         </nb-user>
@@ -38,3 +44,22 @@
     </div>
   </nb-layout-footer>
 </nb-layout>
+
+<ng-template #notificationsTpl>
+  <div class="notif-panel">
+    <header>
+      <strong>Notificações</strong>
+      @if (unreadCount) {
+        <button type="button" (click)="markNotificationsRead()">Marcar como lidas</button>
+      }
+    </header>
+    @for (item of notifications; track item.id) {
+      <article [class.unread]="!item.read">
+        <p>{{ item.text }}</p>
+        <small>{{ item.time }}</small>
+      </article>
+    } @empty {
+      <p class="empty">Nenhuma notificação.</p>
+    }
+  </div>
+</ng-template>
