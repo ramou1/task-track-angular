@@ -70,13 +70,15 @@
     } @else {
       <p class="board-empty">Nenhum quadro encontrado.</p>
     }
-    <button class="sidebar-collapse" type="button" (click)="toggleSidebar()"
-      [attr.aria-label]="sidebarCompact() ? 'Expandir menu' : 'Recolher menu'">
-      <nb-icon [icon]="sidebarCompact() ? 'arrow-ios-forward-outline' : 'arrow-ios-back-outline'"></nb-icon>
-      @if (!sidebarCompact()) {
-        <span>Recolher menu</span>
-      }
-    </button>
+    <nb-sidebar-footer>
+      <button class="sidebar-collapse" type="button" (click)="toggleSidebar()"
+        [attr.aria-label]="sidebarCompact() ? 'Expandir menu' : 'Recolher menu'">
+        <nb-icon [icon]="sidebarCompact() ? 'arrow-ios-forward-outline' : 'arrow-ios-back-outline'"></nb-icon>
+        @if (!sidebarCompact()) {
+          <span>Recolher menu</span>
+        }
+      </button>
+    </nb-sidebar-footer>
   </nb-sidebar>
 
   <nb-layout-column>

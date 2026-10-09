@@ -12,6 +12,7 @@ import {
   NbInputModule,
   NbSelectModule,
   NbTagModule,
+  NbTooltipModule,
 } from '@nebular/theme';
 import { firstValueFrom } from 'rxjs';
 import { BasePage } from '../../../services/base-page';
@@ -60,6 +61,7 @@ const VIEW_KEY = 'tasktrack.taskView';
     NbIconModule,
     NbTagModule,
     NbSelectModule,
+    NbTooltipModule,
     RichTextEditorComponent,
     SafeHtmlPipe,
   ],

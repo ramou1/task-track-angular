@@ -98,10 +98,13 @@
                     {{ task.responsible?.name || '—' }}
                   </span>
                 </span>
-                <span>
+                <span class="status-cell">
                   <span class="status-chip" [ngClass]="'status-' + task.status">{{ getStatusName(task.status) }}</span>
                   @if (isOverdue(task)) {
-                    <span class="status-chip status-overdue">Atrasada</span>
+                    <nb-icon class="overdue-alert" icon="alert-triangle-outline" status="danger"
+                      nbTooltip="Tarefa atrasada" nbTooltipStatus="danger" nbTooltipPlacement="top"
+                      aria-label="Tarefa atrasada">
+                    </nb-icon>
                   }
                 </span>
                 <span class="hide-sm">{{ task.expirationDate | date:'d MMM' }}</span>
@@ -157,7 +160,10 @@
                     </span>
                   }
                   @if (isOverdue(task)) {
-                    <span class="status-chip status-overdue">Atrasada</span>
+                    <nb-icon class="overdue-alert" icon="alert-triangle-outline" status="danger"
+                      nbTooltip="Tarefa atrasada" nbTooltipStatus="danger" nbTooltipPlacement="top"
+                      aria-label="Tarefa atrasada">
+                    </nb-icon>
                   }
                 </div>
               </article>

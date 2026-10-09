@@ -197,10 +197,10 @@ nb-layout-header {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: calc(100% - 16px);
-  margin: auto 8px 12px;
-  padding: 10px 8px;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 6px 8px;
   border: 0;
   border-radius: 10px;
   background: transparent;
@@ -221,7 +221,14 @@ nb-layout-header {
   .app-sidebar .scrollable {
     display: flex;
     flex-direction: column;
-    padding: 8px 0 12px !important;
+    padding: 8px 0 4px !important;
+  }
+
+  .app-sidebar nb-sidebar-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+    padding: 0 8px 2px;
   }
 
   .app-sidebar nb-menu {
