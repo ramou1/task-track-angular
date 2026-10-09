@@ -17,7 +17,7 @@ Sistema web em [Angular](https://angular.dev/) 18 para organizar quadros, usuár
 ## Funcionalidades
 
 - Login com contas de demonstração, sessão persistida no navegador e planos fictícios na página inicial
-- Menu lateral com quadros/empresas mockados, busca e criação de quadro nesta sessão
+- Menu lateral com quadros/empresas mockados, busca e criação de quadro nesta sessão, com escolha de ícone e cor
 - Dashboard do quadro com resumo (usuários, tarefas, pendentes, em andamento, concluídas e atrasadas)
 - Lista estilo Monday e visão em colunas, com busca, filtro por responsável/status e ordenação por vencimento
 - Clique na tarefa abre uma modal com detalhes, descrição rica, comentários mockados, edição e exclusão

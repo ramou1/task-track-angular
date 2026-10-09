@@ -2,10 +2,13 @@ import { CdkDragDrop, DragDropModule, transferArrayItem } from '@angular/cdk/dra
 import { CommonModule } from '@angular/common';
 import { Component, effect, inject, Injector, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NbDateFnsDateService } from '@nebular/date-fns';
 import {
+  NB_DATE_SERVICE_OPTIONS,
   NbButtonModule,
   NbCardModule,
   NbDatepickerModule,
+  NbDateService,
   NbDialogModule,
   NbFormFieldModule,
   NbIconModule,
@@ -67,6 +70,10 @@ const VIEW_KEY = 'tasktrack.taskView';
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
+  providers: [
+    { provide: NbDateService, useClass: NbDateFnsDateService },
+    { provide: NB_DATE_SERVICE_OPTIONS, useValue: { format: 'dd/MM/yyyy' } },
+  ],
 })
 export class TasksComponent extends BasePage implements OnInit {
   readonly auth = inject(AuthService);

@@ -34,15 +34,15 @@ export class MockBoardService {
     localStorage.setItem(STORAGE_KEY, board.id);
   }
 
-  addBoard(name: string): BoardModel {
+  addBoard(name: string, options?: { color?: string; icon?: string }): BoardModel {
     const preset = BOARD_PRESETS[this.boardsState().length % BOARD_PRESETS.length];
     const board: BoardModel = {
       id: `quadro-${Date.now()}`,
       name: name.trim(),
       company: name.trim(),
       description: 'Quadro criado nesta sessão.',
-      color: preset.color,
-      icon: preset.icon,
+      color: options?.color || preset.color,
+      icon: options?.icon || preset.icon,
     };
 
     this.boardsState.update((list) => [...list, board]);

@@ -77,7 +77,20 @@ export class AppComponent extends BasePage implements OnInit {
   ];
 
   readonly boardSearch = signal('');
+  readonly boardIcons = [
+    'briefcase-outline',
+    'color-palette-outline',
+    'bulb-outline',
+    'globe-outline',
+    'home-outline',
+    'calendar-outline',
+    'people-outline',
+    'star-outline',
+  ];
+  readonly boardColors = ['#323259', '#9d50dd', '#fdab3d', '#579bfc', '#00c875', '#e2445c'];
   newBoardName = '';
+  newBoardIcon = this.boardIcons[0];
+  newBoardColor = this.boardColors[0];
 
   readonly contextMenuItems = [
     { title: 'Usuários', icon: 'people-outline', data: { action: 'users' } },
@@ -138,6 +151,8 @@ export class AppComponent extends BasePage implements OnInit {
 
   openNewBoardDialog(dialog: TemplateRef<unknown>): void {
     this.newBoardName = '';
+    this.newBoardIcon = this.boardIcons[0];
+    this.newBoardColor = this.boardColors[0];
     if (this.sidebarCompact()) {
       this.toggleSidebar();
     }
@@ -150,7 +165,10 @@ export class AppComponent extends BasePage implements OnInit {
       return;
     }
 
-    const board = this.boardSrvc.addBoard(name);
+    const board = this.boardSrvc.addBoard(name, {
+      icon: this.newBoardIcon,
+      color: this.newBoardColor,
+    });
     this.boardSearch.set('');
     ref.close();
     this.toastrSrvc.info(MSG_CONST.BOARD_CREATED, 'Novo quadro');

@@ -29,7 +29,7 @@ bootstrapApplication(AppComponent, {
       BrowserAnimationsModule,
       NbThemeModule.forRoot({ name: 'tasktrack-light' }),
       NbDatepickerModule.forRoot(),
-      NbDateFnsDateModule,
+      NbDateFnsDateModule.forRoot({ format: 'dd/MM/yyyy' }),
       NbDialogModule.forRoot(),
       NbIconModule,
       NbSidebarModule.forRoot(),

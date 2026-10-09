@@ -120,6 +120,23 @@
       <p>O quadro aparece só nesta sessão e ainda não é salvo.</p>
       <input nbInput fullWidth placeholder="Nome do quadro" [(ngModel)]="newBoardName"
         (keyup.enter)="createBoard(ref)">
+      <span class="picker-label">Ícone</span>
+      <div class="option-row">
+        @for (icon of boardIcons; track icon) {
+          <button class="icon-option" type="button" [class.is-selected]="newBoardIcon === icon"
+            [attr.aria-label]="icon" (click)="newBoardIcon = icon">
+            <nb-icon [icon]="icon"></nb-icon>
+          </button>
+        }
+      </div>
+      <span class="picker-label">Cor</span>
+      <div class="option-row">
+        @for (color of boardColors; track color) {
+          <button class="color-option" type="button" [class.is-selected]="newBoardColor === color"
+            [style.background]="color" [attr.aria-label]="color" (click)="newBoardColor = color">
+          </button>
+        }
+      </div>
     </nb-card-body>
     <nb-card-footer>
       <button (click)="ref.close()" nbButton status="basic" type="button">Cancelar</button>

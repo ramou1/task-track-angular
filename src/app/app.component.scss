@@ -15,14 +15,18 @@
   gap: 4px;
 }
 
-.notif-btn {
+:host ::ng-deep button.notif-btn {
   position: relative;
+  width: 40px;
+  min-width: 40px;
+  padding: 0 !important;
+  justify-content: center;
 }
 
 .notif-dot {
   position: absolute;
   top: 4px;
-  right: 4px;
+  right: 2px;
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
